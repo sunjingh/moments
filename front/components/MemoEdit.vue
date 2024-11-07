@@ -51,8 +51,8 @@
 
       <div class="flex gap-1 text-gray-500 gap-4">
         <div class="flex gap-1 items-center">
-          <span>{{ state.showType ? '公开' : '私密' }}</span>
-          <UToggle v-model="state.showType"/>
+          <UTabs v-model="state.showType" :items="[{label: '私密'}, {label: '公开'}, {label: '内部'}]"
+                 :ui="{wrapper: 'space-y-0', list: {height: 'h-8', tab: {height: 'h-6'}}}"/>
         </div>
 
         <UButtonGroup>
@@ -103,7 +103,7 @@ const defaultState = {
   content: "",
   ext: "",
   pinned: false,
-  showType: true,
+  showType: 1,
   location: "",
   externalFavicon: "",
   externalTitle: "",
@@ -227,7 +227,7 @@ onMounted(async () => {
   if (state.id > 0) {
     const res = await useMyFetch<MemoVO>('/memo/get?id=' + state.id)
     Object.assign(state, res)
-    state.showType = res.showType === 1
+    state.showType = res.showType
     const ext = JSON.parse(res.ext) as ExtDTO
     Object.assign(state.music, ext.music)
     Object.assign(state.video, ext.video)
@@ -256,7 +256,7 @@ const saveMemo = async () => {
       video: state.video.value ? state.video : {},
     },
     pinned: state.pinned,
-    showType: state.showType ? 1 : 0,
+    showType: state.showType,
     externalFavicon: state.externalUrl ? state.externalFavicon : "",
     externalTitle: state.externalTitle,
     externalUrl: state.externalUrl,

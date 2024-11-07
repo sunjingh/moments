@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full md:w-[567px] mx-auto h-full shadow-2xl">
+  <div class="w-full md:w-[567px] mx-auto h-full border-b border-slate-100 shadow-inner">
     <slot/>
-    <Footer/>
+    <!--<Footer/>-->
   </div>
 
   <div title="到顶部" v-if="y>200 && $route.path === '/'"

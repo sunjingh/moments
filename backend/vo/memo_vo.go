@@ -11,7 +11,7 @@ type ListMemoReq struct {
 	Start           *time.Time `json:"start,omitempty"`           //开始时间
 	End             *time.Time `json:"end,omitempty"`             //结束时间
 	ContentContains string     `json:"contentContains,omitempty"` //内容包含
-	ShowType        *int       `json:"showType,omitempty"`        //是否是公开的,1:公开,0:私有
+	ShowType        *int       `json:"showType,omitempty"`        //是否是公开的,1:公开,0:私有,2:内部
 	UserId          *int       `json:"userId,omitempty"`          //用户id
 }
 type RemoveImageReq struct {
@@ -41,7 +41,7 @@ type SaveMemoReq struct {
 	Content         string   `json:"content,omitempty"`         //正文
 	Ext             MemoExt  `json:"ext"`                       //扩展
 	Pinned          *bool    `json:"pinned,omitempty"`          //是否置顶
-	ShowType        *int32   `json:"showType,omitempty"`        //是否公开,1:公开,0:私有
+	ShowType        *int32   `json:"showType,omitempty"`        //是否公开,1:公开,0:私有,2:内部
 	ExternalFavicon string   `json:"externalFavicon,omitempty"` //外部站点favicon
 	ExternalTitle   string   `json:"externalTitle,omitempty"`   //外部站点标题
 	ExternalUrl     string   `json:"externalUrl,omitempty"`     //外部站点URL

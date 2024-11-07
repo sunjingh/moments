@@ -137,7 +137,7 @@ func (m MemoHandler) ListMemos(c echo.Context) error {
 	if currentUser == nil {
 		tx = tx.Where("showType = 1")
 	} else {
-		tx = tx.Where("userId = ? or (userId <> ? and showType = 1)", currentUser.Id, currentUser.Id)
+		tx = tx.Where("userId = ? or (userId <> ? and (showType = 1 or showType = 2))", currentUser.Id, currentUser.Id)
 	}
 	if req.Tag != "" {
 		if strings.Contains(req.Tag, ",") {

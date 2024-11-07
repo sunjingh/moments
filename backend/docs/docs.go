@@ -1226,7 +1226,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "showType": {
-                    "description": "是否是公开的,1:公开,0:私有",
+                    "description": "是否是公开的,1:公开,0:私有,2:内部",
                     "type": "integer"
                 },
                 "size": {
@@ -1457,7 +1457,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "showType": {
-                    "description": "是否公开,1:公开,0:私有",
+                    "description": "是否公开,1:公开,0:私有,2:内部",
                     "type": "integer"
                 }
             }

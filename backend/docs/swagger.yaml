@@ -344,7 +344,7 @@ definitions:
         description: 页码,从1开始
         type: integer
       showType:
-        description: 是否是公开的,1:公开,0:私有
+        description: 是否是公开的,1:公开,0:私有,2:内部
         type: integer
       size:
         description: 页大小,默认10
@@ -501,7 +501,7 @@ definitions:
         description: 是否置顶
         type: boolean
       showType:
-        description: 是否公开,1:公开,0:私有
+        description: 是否公开,1:公开,0:私有,2:内部
         type: integer
     type: object
   vo.SysConfigVO:

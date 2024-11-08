@@ -33,10 +33,10 @@
 
     <div class="flex justify-between items-center">
       <div class="flex flex-row gap-1 items-center text-[#576b95] text-sm cursor-pointer">
-        <UPopover :popper="{ arrow: true }" mode="click">
+        <UPopover :popper="{ arrow: true }">
           <div class="flex items-center gap-1">
             <UIcon name="i-carbon-location"/>
-            <span>{{ state.location ? locationLabel : '自定义位置' }}</span>
+            <span>{{ state.location ? locationLabel : '自定义' }}</span>
           </div>
           <template #panel="{close}">
             <div class="p-4">
@@ -49,10 +49,10 @@
         </UPopover>
       </div>
 
-      <div class="flex gap-1 text-gray-500 gap-4">
+      <div class="flex gap-2 text-gray-500">
         <div class="flex gap-1 items-center">
           <UTabs v-model="state.showType" :items="[{label: '私密'}, {label: '公开'}, {label: '内部'}]"
-                 :ui="{wrapper: 'space-y-0', list: {height: 'h-8', tab: {height: 'h-6'}}}"/>
+                 :ui="{wrapper: 'space-y-0', list: {height: 'h-8', tab: {height: 'h-6', padding: 'px-2'}}}"/>
         </div>
 
         <UButtonGroup>

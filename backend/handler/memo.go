@@ -411,7 +411,7 @@ func (m MemoHandler) GetMemo(c echo.Context) error {
 		return FailResp(c, ParamError)
 	}
 
-	if *memo.ShowType != 1 && (currentUser == nil || currentUser.Id != memo.UserId) {
+	if *memo.ShowType == 0 && (currentUser == nil || currentUser.Id != memo.UserId) {
 		return FailRespWithMsg(c, Fail, "暂无权限查看")
 	}
 

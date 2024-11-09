@@ -103,7 +103,7 @@ const defaultState = {
   content: "",
   ext: "",
   pinned: false,
-  showType: 1,
+  showType: 2,
   location: "",
   externalFavicon: "",
   externalTitle: "",

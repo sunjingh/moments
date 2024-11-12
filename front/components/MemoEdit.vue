@@ -8,12 +8,12 @@
       <music v-bind="state.music" @confirm="updateMusic"/>
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
       <douban-edit v-model:type="doubanType" v-model:data="doubanData"/>
-      <UIcon name="mdi:delete-forever-outline" @click="reset" class="w-6 h-6 cursor-pointer" title="清空"></UIcon>
+      <IconMdiDeleteForeverOutline @click="reset" class="w-6 h-6 cursor-pointer" title="清空"/>
     </div>
 
     <div class="w-full" @contextmenu.prevent="onContextMenu">
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
-                   multiple searchable creatable placeholder="选择标签" class="my-2" >
+                   multiple searchable creatable placeholder="选择标签" class="my-2">
         <template #label>
           <span v-if="selectedLabel.length" class="truncate">{{ selectedLabel.join(',') }}</span>
           <span v-else>选择标签</span>
@@ -35,7 +35,7 @@
       <div class="flex flex-row gap-1 items-center text-[#576b95] text-sm cursor-pointer">
         <UPopover :popper="{ arrow: true }">
           <div class="flex items-center gap-1">
-            <UIcon name="mdi:location-radius-outline"/>
+            <IconMdiLocationRadiusOutline/>
             <span>{{ state.location ? locationLabel : '自定义' }}</span>
           </div>
           <template #panel="{close}">
@@ -61,7 +61,7 @@
         </UButtonGroup>
       </div>
     </div>
-    
+
     <div class="flex flex-col gap-2">
       <external-url-preview :favicon="state.externalFavicon" :title="state.externalTitle" :url="state.externalUrl"/>
       <upload-image-preview :imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>
@@ -125,22 +125,22 @@ const defaultState = {
 }
 const selectedTags = ref<Array<string>>([])
 const selectedLabel = computed({
-  get:()=>selectedTags.value,
-  set:(labels:Array<string>)=>{
+  get: () => selectedTags.value,
+  set: (labels: Array<string>) => {
     const tempLabels = Array<string>()
-    labels.map(label=>{
+    labels.map(label => {
       // @ts-ignore
-      if(typeof  label !== 'string'){
+      if (typeof label !== 'string') {
         // @ts-ignore
         label = label.label
       }
       tempLabels.push(label)
-      if(!existTags.value.includes(label)){
+      if (!existTags.value.includes(label)) {
         existTags.value.push(label)
       }
     })
     selectedTags.value = [...tempLabels]
-    console.log('selectedTags',selectedTags.value)
+    console.log('selectedTags', selectedTags.value)
   }
 })
 const state = reactive({
@@ -209,12 +209,11 @@ const loadTags = async () => {
 }
 
 
-
 const clickTag = (tag: string) => {
   isOpen.value = false;
-  if (!selectedLabel.value.includes(tag)){
+  if (!selectedLabel.value.includes(tag)) {
     if (selectedLabel.value) {
-      selectedLabel.value = [...selectedLabel.value , tag]
+      selectedLabel.value = [...selectedLabel.value, tag]
     } else {
       selectedLabel.value = [tag]
     }
@@ -233,7 +232,7 @@ onMounted(async () => {
     Object.assign(state.video, ext.video)
     doubanType.value = ext.doubanBook && ext.doubanBook.title ? 'book' : 'movie'
     doubanData.value = doubanType.value === 'book' ? ext.doubanBook : ext.doubanMovie
-    selectedLabel.value = res.tags ? res.tags.substring(0,res.tags.length-1).split(',') : []
+    selectedLabel.value = res.tags ? res.tags.substring(0, res.tags.length - 1).split(',') : []
   }
   await loadTags()
 })

@@ -1,4 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver';
+import Components from 'unplugin-vue-components/vite';
+
 export default defineNuxtConfig({
     compatibilityDate: '2024-04-03',
     devtools: {enabled: false},
@@ -8,10 +13,6 @@ export default defineNuxtConfig({
         locales: ['zh'],
         defaultLocale: 'zh'
     },
-    // 其他配置
-    plugins: [
-        { src: '~/plugins/iconify.ts', mode: 'client' }
-    ],
     ui: {
         icons: ['carbon']
     },
@@ -23,14 +24,14 @@ export default defineNuxtConfig({
     },
     vue: {
         compilerOptions: {
-            isCustomElement: (tag:string) => ['meting-js'].includes(tag),
+            isCustomElement: (tag: string) => ['meting-js'].includes(tag),
         },
     },
     app: {
         head: {
             meta: [
-                { name: "viewport", content: "width=device-width, initial-scale=1, user-scalable=no" },
-                { charset: "utf-8" },
+                {name: "viewport", content: "width=device-width, initial-scale=1, user-scalable=no"},
+                {charset: "utf-8"},
             ],
             link: [
                 {href: `/css/APlayer.min.css`, rel: 'stylesheet'},
@@ -43,6 +44,18 @@ export default defineNuxtConfig({
         }
     },
     vite: {
+        plugins: [
+            Components({
+                resolvers: [
+                    IconsResolver({
+                        prefix: 'Icon', // 这个前缀可以自定义
+                    }),
+                ],
+            }),
+            Icons({
+                autoInstall: true, // 自动安装缺失的图标集
+            }),
+        ],
         server: {
             proxy: {
                 "/api": {

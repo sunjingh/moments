@@ -1,6 +1,6 @@
 <template>
   <UPopover :ui="{base:'w-[300px]'}" :popper="{ arrow: true }" mode="click">
-    <UIcon name="mdi:file-video-outline" class="cursor-pointer w-6 h-6"/>
+    <IconMdiFileVideoOutline class="cursor-pointer w-6 h-6"/>
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">
         <div class="text-xs text-gray-400">嵌入b站视频</div>
@@ -19,7 +19,7 @@
           </template>
         </UInput>
         <div class="text-xs text-gray-400">嵌入Youtube站视频</div>
-        <UInput type="text" size="sm" icon="mdi:file-video-outline" v-model="youtubeUrl">
+        <UInput type="text" size="sm" v-model="youtubeUrl">
           <template #leading>
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
               <path fill="#FF3D00"
@@ -31,12 +31,16 @@
         <div class="text-xs text-gray-400">嵌入在线站视频</div>
         <UInput type="text" size="sm" v-model="onlineUrl">
           <template #leading>
-            <UIcon name="mdi:file-video-outline" class="w-6 h-6"/>
+            <IconMdiFileVideoOutline class="w-6 h-6"/>
           </template>
         </UInput>
 
         <div class="text-xs text-gray-400">上传本地视频</div>
-        <UInput type="file" size="sm" icon="mdi:folder-open-outline" @change="handleUploadVideo"/>
+        <UInput type="file" size="sm" @change="handleUploadVideo">
+          <template #leading>
+            <IconMdiFolderOpenOutline/>
+          </template>
+        </UInput>
 
         <p v-if="filename" class="text-xs text-gray-400">正在上传({{ current }}/{{ total }})</p>
         <p v-if="filename" class="text-xs text-gray-400">{{ filename }}</p>

@@ -6,7 +6,7 @@
 
   <div title="到顶部" v-if="y>200 && $route.path === '/'"
        class="hidden sm:block bottom-[20%] sm:right-[20%] md:right-[10%] lg:right-[15%] xl:right-[20%] 2xl:right-[28%] fixed  flex items-center justify-center">
-    <UIcon name="mdi:format-vertical-align-top" class="w-10 h-10 text-gray-500 cursor-pointer" @click="y=0"></UIcon>
+    <IconMdiFormatVerticalAlignTop class="w-10 h-10 text-gray-500 cursor-pointer" @click="y=0"/>
   </div>
 
 
@@ -16,17 +16,21 @@
       <div class="flex flex-col items-center gap-2">
         <div v-if="y>300" @click="y=0"
              class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl">
-          <UIcon name="mdi:format-vertical-align-top" class="w-6 h-6 text-[#9fc84a] cursor-pointer"></UIcon>
+          <IconMdiFormatVerticalAlignTop class="w-6 h-6 text-[#9fc84a] cursor-pointer"/>
         </div>
         <!-- 返回上一页 -->
-        <NuxtLink to="../" v-if="$route.path !== '/'" class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl">
-          <UIcon name="mdi:arrow-left-top" class="w-6 h-6 text-[#9fc84a]"></UIcon>
+        <NuxtLink to="../" v-if="$route.path !== '/'"
+                  class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl">
+          <IconMdiArrowLeftTop class="w-6 h-6 text-[#9fc84a]"/>
         </NuxtLink>
-        <NuxtLink to="/new" v-if="$route.path === '/'" class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl">
-          <UIcon name="mdi:square-edit-outline" class="w-6 h-6 text-[#9fc84a]"></UIcon>
+        <NuxtLink to="/new" v-if="$route.path === '/'"
+                  class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl">
+          <IconMdiSquareEditOutline class="w-6 h-6 text-[#9fc84a]"/>
         </NuxtLink>
-        <div class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl" @click="open = true">
-          <UIcon name="mdi:focus-field" class="w-6 h-6 text-[#9fc84a] cursor-pointer"></UIcon>
+        <div
+            class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-12 h-12 flex items-center justify-center shadow-xl"
+            @click="open = true">
+          <IconMdiFocusField class="w-6 h-6 text-[#9fc84a] cursor-pointer"/>
         </div>
       </div>
     </div>
@@ -36,11 +40,11 @@
       <div class="flex flex-col items-center gap-2">
         <div v-if="y>300" @click="y=0"
              class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-10 h-10 flex items-center justify-center shadow-xl">
-          <UIcon name="mdi:format-vertical-align-top" class="w-6 h-6 text-[#9fc84a] cursor-pointer"></UIcon>
+          <IconMdiFormatVerticalAlignTop class="w-6 h-6 text-[#9fc84a] cursor-pointer"/>
         </div>
         <NuxtLink to="/user/login"
                   class="dark:bg-gray-900/85 mr-4 rounded-full bg-slate-50 w-10 h-10 flex items-center justify-center shadow-xl">
-          <UIcon name="mdi:login-variant" class="w-6 h-6 text-[#9fc84a]"></UIcon>
+          <IconMdiLoginVariant class="w-6 h-6 text-[#9fc84a]"/>
         </NuxtLink>
       </div>
     </div>

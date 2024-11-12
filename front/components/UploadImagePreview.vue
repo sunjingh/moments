@@ -6,7 +6,7 @@
            :class="images.length === 1 ? 'full-cover-image-single' : 'full-cover-image-mult'">
       <div class="absolute right-6 top-0 px-1 bg-white m-2 rounded hover:text-red-500 cursor-pointer"
            @click="removeImage(img)">
-        <UIcon name="mdi:trash-can-outline" class=""/>
+        <IconMdiTrashCanOutline class=""/>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ const el = ref(null)
 const props = defineProps<{ imgs: string }>()
 const emit = defineEmits(['removeImage', 'dragImage'])
 const images = ref<string[]>((!props.imgs || props.imgs === ',') ? [] : props.imgs.split(","))
-watch(props, () => {
+watch(() => props.imgs, () => {
   if (!props.imgs || props.imgs === ',') {
     images.value = []
   } else {

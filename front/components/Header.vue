@@ -4,7 +4,7 @@
     <div
         class="dark:bg-neutral-800 hidden sm:flex sm:absolute sm:-right-10 sm:rounded sm:p-2 sm:flex-col sm:w-fit justify-end shadow w-full flex-row  top-0  p-1 flex  gap-2 bg-white ">
       <NuxtLink to="/" v-if="$route.path !== '/'" title="返回主页">
-        <UIcon name="mdi:home-account" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiHomeAccount class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
       <svg v-if="mode==='light'" @click="toggleMode" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
            viewBox="0 0 24 24" fill="none"
@@ -31,21 +31,22 @@
         <path d="m19.07 4.93-1.41 1.41"></path>
       </svg>
 
+
       <NuxtLink to="/new" v-if="global.userinfo.token " title="发表">
-        <UIcon name="mdi:square-edit-outline" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiSquareEditOutline class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
       <NuxtLink to="/user/calendar" v-if="global.userinfo.token" title="日历检索">
-        <UIcon name="mdi:calendar-month-outline" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiCalendarMonthOutline class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
 
       <NuxtLink to="/sys/settings" v-if="global.userinfo.id === 1" title="系统设置">
-        <UIcon name="mdi:settings-outline" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiSettingsOutline class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
       <NuxtLink to="/user/settings" v-if="global.userinfo.token" title="用户中心">
-        <UIcon name="mdi:account" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiAccount class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
       <NuxtLink to="/user/login" v-if="!global.userinfo.token" title="登录">
-        <UIcon name="mdi:login-variant" class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
+        <IconMdiLoginVariant class="text-[#9fc84a] w-5 h-5 cursor-pointer"/>
       </NuxtLink>
     </div>
 

@@ -2,9 +2,9 @@
   <Header :user="currentUser"/>
   <div class="space-y-4  flex flex-col p-4 my-4 dark:bg-neutral-800">
 
-<!--    <div class="flex justify-end gap-2 sm:hidden">-->
-<!--      <UButton @click="navigateTo('/')" icon="i-carbon-arrow-left" size="xs" color="gray" variant="solid">返回</UButton>-->
-<!--    </div>-->
+    <!--    <div class="flex justify-end gap-2 sm:hidden">-->
+    <!--      <UButton @click="navigateTo('/')" icon="i-carbon-arrow-left" size="xs" color="gray" variant="solid">返回</UButton>-->
+    <!--    </div>-->
 
     <div class="flex justify-end text-xs text-gray-400">
       <div v-if="version">版本号: {{ version }}</div>
@@ -17,7 +17,11 @@
     </UFormGroup>
     <UFormGroup label="Favicon" name="favicon"
                 :ui="{label:{base:'font-bold'}}">
-      <UInput type="file" size="sm" icon="mdi:folder-open-outline" @change="uploadFavicon"/>
+      <UInput type="file" size="sm" @change="uploadFavicon">
+        <template #leading>
+          <IconMdiFolderOpenOutline/>
+        </template>
+      </UInput>
       <div class="text-gray-500 text-sm my-2">或者输入在线地址</div>
       <UInput v-model="state.favicon" class="mb-2"/>
       <UAvatar :src="state.favicon"/>
@@ -56,43 +60,43 @@
                    :options="[{label:'几分钟前',value:'timeAgo'},{label:'2024-07-24 09:56:55',value:'time'}]"
                    value-attribute="value" option-attribute="label"></USelectMenu>
     </UFormGroup>
-      <UFormGroup label="是否启用Google Recaptcha" name="enableGoogleRecaptcha" :ui="{label:{base:'font-bold'}}">
-        <UToggle v-model="state.enableGoogleRecaptcha"/>
+    <UFormGroup label="是否启用Google Recaptcha" name="enableGoogleRecaptcha" :ui="{label:{base:'font-bold'}}">
+      <UToggle v-model="state.enableGoogleRecaptcha"/>
+    </UFormGroup>
+    <template v-if="state.enableGoogleRecaptcha">
+      <UFormGroup label="SiteKey" name="googleSiteKey" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.googleSiteKey"/>
       </UFormGroup>
-      <template v-if="state.enableGoogleRecaptcha">
-        <UFormGroup label="SiteKey" name="googleSiteKey" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.googleSiteKey"/>
-        </UFormGroup>
-        <UFormGroup label="SecretKey" name="googleSecretKey" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.googleSecretKey"/>
-        </UFormGroup>
-      </template>
-      <UFormGroup label="是否启用S3存储" name="s3" :ui="{label:{base:'font-bold'}}">
-        <UToggle v-model="state.enableS3"/>
+      <UFormGroup label="SecretKey" name="googleSecretKey" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.googleSecretKey"/>
       </UFormGroup>
-      <template v-if="state.enableS3">
-        <UFormGroup label="域名" name="domain" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.domain"/>
-        </UFormGroup>
-        <UFormGroup label="桶名" name="bucket" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.bucket"/>
-        </UFormGroup>
-        <UFormGroup label="地区" name="region" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.region"/>
-        </UFormGroup>
-        <UFormGroup label="AccessKey" name="accessKey" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.accessKey"/>
-        </UFormGroup>
-        <UFormGroup label="SecretKey" name="secretKey" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.secretKey"/>
-        </UFormGroup>
-        <UFormGroup label="S3 API接口地址" name="endpoint" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.endpoint"/>
-        </UFormGroup>
-        <UFormGroup label="图片后缀" name="thumbnailSuffix" :ui="{label:{base:'font-bold'}}">
-          <UInput v-model="state.s3.thumbnailSuffix"/>
-        </UFormGroup>
-      </template>
+    </template>
+    <UFormGroup label="是否启用S3存储" name="s3" :ui="{label:{base:'font-bold'}}">
+      <UToggle v-model="state.enableS3"/>
+    </UFormGroup>
+    <template v-if="state.enableS3">
+      <UFormGroup label="域名" name="domain" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.domain"/>
+      </UFormGroup>
+      <UFormGroup label="桶名" name="bucket" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.bucket"/>
+      </UFormGroup>
+      <UFormGroup label="地区" name="region" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.region"/>
+      </UFormGroup>
+      <UFormGroup label="AccessKey" name="accessKey" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.accessKey"/>
+      </UFormGroup>
+      <UFormGroup label="SecretKey" name="secretKey" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.secretKey"/>
+      </UFormGroup>
+      <UFormGroup label="S3 API接口地址" name="endpoint" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.endpoint"/>
+      </UFormGroup>
+      <UFormGroup label="图片后缀" name="thumbnailSuffix" :ui="{label:{base:'font-bold'}}">
+        <UInput v-model="state.s3.thumbnailSuffix"/>
+      </UFormGroup>
+    </template>
 
     <UButton class="justify-center" @click="save">保存</UButton>
   </div>
@@ -107,8 +111,8 @@ const currentUser = useState<UserVO>('userinfo')
 const version = ref('')
 const state = reactive({
   enableGoogleRecaptcha: false,
-  googleSiteKey:"",
-  googleSecretKey:"",
+  googleSiteKey: "",
+  googleSecretKey: "",
   enableAutoLoadNextPage: true,
   enableComment: true,
   enableRegister: true,
@@ -150,7 +154,7 @@ const save = async () => {
 
 const uploadFavicon = async (files: FileList) => {
   for (let i = 0; i < files.length; i++) {
-    if (files[i].type.indexOf("image") < 0){
+    if (files[i].type.indexOf("image") < 0) {
       toast.error("只能上传图片");
       return
     }

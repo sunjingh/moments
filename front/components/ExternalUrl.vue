@@ -1,6 +1,6 @@
 <template>
   <UPopover :popper="{ arrow: true }" mode="click">
-    <UIcon name="mdi:link-variant" class="w-6 h-6"/>
+    <IconMdiLinkVariant class="w-6 h-6"/>
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">
         <UInput v-model="url" placeholder="请输入分享的链接"/>

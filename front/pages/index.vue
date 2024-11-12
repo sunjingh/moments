@@ -10,6 +10,7 @@
     </div>
     <div class="text-xs text-center text-gray-500 py-2" v-else>已经到底啦</div>
   </PullRefresh>
+  <div class="w-10 h-10 absolute left-0 top-0" @click="handleDebugClick"/>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +18,7 @@ import type {MemoVO, SysConfigVO, UserVO} from "~/types";
 import Memo from "~/components/Memo.vue";
 import {memoChangedEvent, memoReloadEvent} from "~/event";
 import {useElementVisibility} from '@vueuse/core'
+import eruda from "eruda";
 
 const currentUser = useState<UserVO>('userinfo')
 const sysConfig = useState<SysConfigVO>('sysConfig')
@@ -75,6 +77,15 @@ memoChangedEvent.on(async (id: number) => {
     memos.value[index] = res
   }
 })
+
+const debugClickTime = ref(0)
+
+function handleDebugClick() {
+  debugClickTime.value++
+  if (debugClickTime.value > 6) {
+    eruda.init()
+  }
+}
 </script>
 
 <style scoped>

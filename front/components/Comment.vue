@@ -14,7 +14,7 @@
     <span class="text-xs text-gray-400 ml-2 hidden sm:inline-block">{{$dayjs(props.comment.createdAt).fromNow()}}</span>
     <span class="text-xs text-gray-400 ml-2 inline-flex" v-if="(global.userinfo.id === props.memoUserId || global.userinfo.id === 1)">
       <Confirm @ok="removeComment">
-        <UIcon name="mdi:trash-can-outline" class="cursor-pointer text-red-400"/>
+        <IconMdiTrashCanOutline class="cursor-pointer text-red-400"/>
       </Confirm>
     </span>
     

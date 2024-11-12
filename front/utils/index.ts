@@ -53,15 +53,18 @@ async function upload2S3(files: FileList, onProgress: Function | undefined) {
 }
 
 const upload2S3WithProgress = async (preSignedUrl: string, file: File, onProgress: Function) => {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.addEventListener('progress', e => onProgress(file.name, e.loaded / e.total));
         xhr.addEventListener('load', () => {
             if (xhr.responseType === 'json') {
-                return resolve(JSON.parse(xhr.responseText))
+                resolve(JSON.parse(xhr.responseText))
             }
-            return resolve(null);
+            if (xhr.status === 200) {
+                resolve(null);
+            }
         });
+
         xhr.addEventListener('error', () => reject(new Error('File upload failed')));
         xhr.addEventListener('abort', () => reject(new Error('File upload aborted')));
         xhr.open('PUT', preSignedUrl, true);
@@ -80,11 +83,11 @@ export async function useUpload(files: FileList | null, onProgress: Function | u
         return
     }
 
-    const userinfo = global.value.userinfo
-    const headers: Record<string, any> = {}
-    if (userinfo.token) {
-        headers["x-api-token"] = userinfo.token
-    }
+        const userinfo = global.value.userinfo
+        const headers: Record<string, any> = {}
+        if (userinfo.token) {
+            headers["x-api-token"] = userinfo.token
+        }
 
     if (sysConfig.value.enableS3) {
         return await upload2S3(files, onProgress)

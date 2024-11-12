@@ -48,9 +48,7 @@ const upload = async (files: FileList) => {
   }) as string[]
   toast.success("上传成功")
   if (result) {
-    setTimeout(() => {
-      imgs.value = (imgs.value ? imgs.value + ',' : '') + result.join(",")
-    }, 550)
+    imgs.value = (imgs.value ? imgs.value + ',' : '') + result.join(",")
   }
 }
 

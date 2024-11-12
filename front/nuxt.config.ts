@@ -8,6 +8,10 @@ export default defineNuxtConfig({
         locales: ['zh'],
         defaultLocale: 'zh'
     },
+    // 其他配置
+    plugins: [
+        { src: '~/plugins/iconify.ts', mode: 'client' }
+    ],
     ui: {
         icons: ['carbon']
     },

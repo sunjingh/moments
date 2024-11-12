@@ -5,6 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"os"
+	"path"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -15,12 +22,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/samber/do/v2"
 	"gorm.io/gorm"
-	"io"
-	"os"
-	"path"
-	"path/filepath"
-	"strings"
-	"time"
 )
 
 type FileHandler struct {
@@ -134,7 +135,7 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 	}
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(sysConfigVo.S3.Region),
 		config.WithEndpointResolver(aws.EndpointResolverFunc(func(service, region string) (aws.Endpoint, error) {
-			return aws.Endpoint{URL: sysConfigVo.S3.Endpoint}, nil
+			return aws.Endpoint{URL: sysConfigVo.S3.Endpoint, HostnameImmutable: true}, nil
 		})),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(sysConfigVo.S3.AccessKey, sysConfigVo.S3.SecretKey, "")))
 	if err != nil {
@@ -145,7 +146,7 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 	client := s3.NewFromConfig(cfg)
 	presignedClient := s3.NewPresignClient(client)
 
-	key := fmt.Sprintf("moments/%s/%s", time.Now().Format("2006/01/02"), strings.ReplaceAll(uuid.NewString(), "-", ""))
+	key := fmt.Sprintf("%s/%s", time.Now().Format("2006/01/02"), strings.ReplaceAll(uuid.NewString(), "-", ""))
 	presignedResult, err := presignedClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:      aws.String(sysConfigVo.S3.Bucket),
 		Key:         aws.String(key),

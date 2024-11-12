@@ -1,6 +1,6 @@
 <template>
   <UPopover :ui="{base:'w-[300px]'}" :popper="{ arrow: true }" mode="click">
-    <UIcon name="i-carbon-video-player" class="cursor-pointer w-6 h-6"/>
+    <UIcon name="mdi:file-video-outline" class="cursor-pointer w-6 h-6"/>
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">
         <div class="text-xs text-gray-400">嵌入b站视频</div>
@@ -19,7 +19,7 @@
           </template>
         </UInput>
         <div class="text-xs text-gray-400">嵌入Youtube站视频</div>
-        <UInput type="text" size="sm" icon="i-carbon-video-player" v-model="youtubeUrl">
+        <UInput type="text" size="sm" icon="mdi:file-video-outline" v-model="youtubeUrl">
           <template #leading>
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 48 48">
               <path fill="#FF3D00"
@@ -31,12 +31,12 @@
         <div class="text-xs text-gray-400">嵌入在线站视频</div>
         <UInput type="text" size="sm" v-model="onlineUrl">
           <template #leading>
-            <UIcon name="i-carbon-video-player" class="w-6 h-6"/>
+            <UIcon name="mdi:file-video-outline" class="w-6 h-6"/>
           </template>
         </UInput>
 
         <div class="text-xs text-gray-400">上传本地视频</div>
-        <UInput type="file" size="sm" icon="i-heroicons-folder" @change="handleUploadVideo"/>
+        <UInput type="file" size="sm" icon="mdi:folder-open-outline" @change="handleUploadVideo"/>
 
         <p v-if="filename" class="text-xs text-gray-400">正在上传({{ current }}/{{ total }})</p>
         <p v-if="filename" class="text-xs text-gray-400">{{ filename }}</p>
@@ -84,7 +84,7 @@ watch(props, () => {
 
 const handleUploadVideo = async (files: FileList) => {
   for (let i = 0; i < files.length; i++) {
-    if (files[i].type.indexOf("video") < 0){
+    if (files[i].type.indexOf("video") < 0) {
       toast.error("只能上传视频文件");
       return
     }

@@ -1,57 +1,78 @@
 <template>
-  <div
-      class="will-change-transform"
-      :style="{ transform: `translateY(${distance}px)`, transition: isDragging ? 'none' : 'transform 0.5s ease' }"
-      @touchstart="handleTouchstart"
-      @touchmove="handleTouchmove"
-      @touchend="handleTouchend"
-  >
-    <div class="text-center py-12px text-[#ccc]">
-      <span v-if="distance > 0">释放即可刷新...</span>
-      <span v-if="modelValue">加载中...</span>
+  <div>
+    <div class="refresh-indicator"
+         :style="{ height: `${distance}px`, transition: isRefreshing ? 'height 0.3s ease' : 'none' }">
+      <span v-if="distance > refreshThreshold && !isRefreshing">释放刷新</span>
+      <span v-else-if="isRefreshing">正在刷新...</span>
+      <span v-else>下拉刷新</span>
     </div>
-    <slot></slot>
+    <div
+        class="refresh-container"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+    >
+      <!-- 主内容 -->
+      <slot/>
+    </div>
   </div>
 </template>
+
 <script setup lang="ts">
-const modelValue = defineModel<boolean>('modelValue', {default: false})
-
-const distance = ref(0);
-const startY = ref(0);
-const isDragging = ref(false);  // 标识是否正在拖动
-const dragThreshold = 5;  // 触发拖动的阈值
-const MaxDistance = 60; // 最大拖动的阈值
-
+const isRefreshing = defineModel<boolean>('modelValue', {default: false})
 const emits = defineEmits<{
   touchEnd: []
 }>();
 
-const handleTouchstart = (e: TouchEvent) => {
-  isDragging.value = false; // 初始化为非拖动状态
-  startY.value = e.touches[0].clientY;
+const distance = ref(0);         // 下拉距离
+const isDragging = ref(false);   // 是否在拖动
+let startY = 0;                  // 记录初始触摸位置
+const refreshThreshold = 60;     // 触发刷新的距离阈值
+
+// 触摸开始事件
+const onTouchStart = (event: TouchEvent) => {
+  if (isRefreshing.value) return; // 刷新时不触发下拉
+  startY = event.touches[0].clientY;
+  isDragging.value = true;
 };
 
-const handleTouchmove = (e: TouchEvent) => {
-  const currentY = e.touches[0].clientY;
-  const moveDistance = currentY - startY.value;
-  if (Math.abs(moveDistance) > dragThreshold) {
-    isDragging.value = true;  // 达到阈值，认为是拖动
-    distance.value = moveDistance;  // 更新距离
-  }
-  if (distance.value > MaxDistance) {
-    distance.value = MaxDistance;
+// 触摸移动事件
+const onTouchMove = (event: TouchEvent) => {
+  if (!isDragging.value || isRefreshing.value) return;
+  const currentY = event.touches[0].clientY;
+  distance.value = Math.max(0, currentY - startY); // 只允许向下拉
+  if (distance.value > refreshThreshold) {
+    distance.value = refreshThreshold;
   }
 };
 
-const handleTouchend = (_e: TouchEvent) => {
-  if (!isDragging.value) {
-    // 未拖动
-    return
+// 触摸结束事件
+const onTouchEnd = () => {
+  if (isRefreshing.value) return;
+  if (distance.value >= refreshThreshold) {
+    // 达到阈值，触发刷新
+    isRefreshing.value = true;
+    emits("touchEnd");
   }
   distance.value = 0;
-  startY.value = 0;
   isDragging.value = false;
-  modelValue.value = true;
-  emits("touchEnd");
 };
 </script>
+
+<style scoped>
+.refresh-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #888;
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+.refresh-container {
+  background-color: #fff;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+</style>

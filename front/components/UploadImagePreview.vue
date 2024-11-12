@@ -6,7 +6,7 @@
            :class="images.length === 1 ? 'full-cover-image-single' : 'full-cover-image-mult'">
       <div class="absolute right-6 top-0 px-1 bg-white m-2 rounded hover:text-red-500 cursor-pointer"
            @click="removeImage(img)">
-        <UIcon name="i-carbon-trash-can" class=""/>
+        <UIcon name="mdi:trash-can-outline" class=""/>
       </div>
     </div>
   </div>

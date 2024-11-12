@@ -1,7 +1,7 @@
 <template>
   <UModal v-model="open" :ui="{container: 'sm:items-end'}">
     <div @click="navigate('/new')" v-if="global.userinfo.token " title="发表" class="flex flex-col items-center p-4 pt-8 text-gray-500 dark:text-white">
-      <UIcon name="i-mage-edit" class="text-[#9fc84a] w-7 h-7 cursor-pointer"/>
+      <UIcon name="mdi:square-edit-outline" class="text-[#9fc84a] w-7 h-7 cursor-pointer"/>
       <span>发表</span>
     </div>
     <div class="flex items-center justify-between gap-4 p-8 pt-2 text-gray-500 dark:text-white">
@@ -37,15 +37,15 @@
         <span @click="toggleMode">{{mode==='light' ? '暗色' : '亮色'}}</span>
       </div>
       <div @click="navigate('/user/calendar')" v-if="global.userinfo.token" title="日历检索" class="flex flex-col items-center">
-        <UIcon name="i-jam-search-folder" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
+        <UIcon name="mdi:calendar-month-outline" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
         <span>检索</span>
       </div>
       <div @click="navigate('/sys/settings')" v-if="global.userinfo.id === 1" title="系统设置" class="flex flex-col items-center">
-        <UIcon name="i-carbon-settings" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
+        <UIcon name="mdi:settings-outline" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
         <span>系统</span>
       </div>
       <div @click="navigate('/user/settings')" v-if="global.userinfo.token" title="用户中心" class="flex flex-col items-center">
-        <UIcon name="i-carbon-user-avatar" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
+        <UIcon name="mdi:account" class="text-[#9fc84a] w-6 h-6 cursor-pointer"/>
         <span>用户</span>
       </div>
     </div>

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host 0.0.0.0",
+    "dev": "nuxt dev --host localhost",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,6 +12,8 @@
   "dependencies": {
     "@fancyapps/ui": "^5.0.36",
     "@iconify-json/carbon": "^1.1.36",
+    "@iconify-json/mdi": "^1.2.1",
+    "@iconify/vue": "^4.1.2",
     "@nuxt/ui": "^2.19.0",
     "date-fns": "^3.6.0",
     "markdown-it": "^14.1.0",

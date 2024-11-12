@@ -8,7 +8,7 @@
       <music v-bind="state.music" @confirm="updateMusic"/>
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
       <douban-edit v-model:type="doubanType" v-model:data="doubanData"/>
-      <UIcon name="i-carbon-text-clear-format" @click="reset" class="w-6 h-6 cursor-pointer" title="清空"></UIcon>
+      <UIcon name="mdi:delete-forever-outline" @click="reset" class="w-6 h-6 cursor-pointer" title="清空"></UIcon>
     </div>
 
     <div class="w-full" @contextmenu.prevent="onContextMenu">
@@ -35,7 +35,7 @@
       <div class="flex flex-row gap-1 items-center text-[#576b95] text-sm cursor-pointer">
         <UPopover :popper="{ arrow: true }">
           <div class="flex items-center gap-1">
-            <UIcon name="i-carbon-location"/>
+            <UIcon name="mdi:location-radius-outline"/>
             <span>{{ state.location ? locationLabel : '自定义' }}</span>
           </div>
           <template #panel="{close}">

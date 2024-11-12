@@ -14,9 +14,9 @@
         <div class="username text-[#576b95] mb-1 dark:text-white  flex justify-between">
           <NuxtLink class="cursor-pointer" :to="`/user/${item.user.id}`">{{ item.user.nickname }}</NuxtLink>
           <div>
-            <UIcon v-if="item.pinned" name="i-carbon-pin"/>
-            <UIcon v-if="item.showType === 0" name="i-carbon-locked" class="text-red-500 ml-2 dark:text-white"/>
-            <UIcon v-if="($route.path === `/memo/${item.id}` && (global.userinfo.id === 1 || global.userinfo.id === item.userId))" name="i-iconamoon-menu-kebab-vertical-bold" class="text-red-500 ml-2 dark:text-white cursor-pointer" @click="moreToolbar = true" />
+            <UIcon v-if="item.pinned" name="mdi:arrow-top-bold-box-outline"/>
+            <UIcon v-if="item.showType === 0" name="mdi:lock-outline" class="text-red-500 ml-2 dark:text-white"/>
+            <UIcon v-if="($route.path === `/memo/${item.id}` && (global.userinfo.id === 1 || global.userinfo.id === item.userId))" name="mdi:dots-vertical" class="text-red-500 ml-2 dark:text-white cursor-pointer" @click="moreToolbar = true" />
           </div>
         </div>
         <div class="mb-2">
@@ -55,7 +55,7 @@
 
         <div class="text-[#576b95] font-medium dark:text-white text-xs mt-2 mb-1 select-none flex items-center gap-0.5"
              v-if="location">
-          <UIcon name="i-carbon-location"/>
+          <UIcon name="mdi:location-radius-outline"/>
           <span>{{ location }}</span>
         </div>
 
@@ -76,13 +76,13 @@
                class="absolute top-[-8px] right-[32px] bg-[#4c4c4c] rounded text-white p-2">
             <div class="flex flex-row gap-2">
               <div class="flex flex-row gap-1 cursor-pointer items-center px-4" @click="likeMemo(item.id)">
-                <UIcon name="i-carbon-favorite" :class="[liked ? 'text-red-400' : '']"/>
+                <UIcon name="mdi:favorite-border" :class="[liked ? 'text-red-400' : '']"/>
                 <div>赞</div>
               </div>
               <template v-if="sysConfig.enableComment">
                 <span class="bg-[#6b7280] h-[20px] w-[1px]"></span>
                 <div class="flex flex-row gap-1 cursor-pointer items-center px-4" @click="doComment">
-                  <UIcon name="i-octicon-comment"/>
+                  <UIcon name="mdi:comment-outline"/>
                   <div>评论</div>
                 </div>
               </template>
@@ -93,20 +93,20 @@
               <div class="flex items-center justify-center gap-8 p-4 text-gray-500 dark:text-white">
                 <template v-if="global.userinfo.id === 1">
                   <div class="flex flex-col gap-1 cursor-pointer items-center" @click="setPinned(item.id)">
-                    <UIcon class="text-[#9fc84a] w-5 h-5" name="i-carbon-pin"/>
+                    <UIcon class="text-[#9fc84a] w-5 h-5" name="mdi:arrow-top-bold-box-outline"/>
                     <div>{{ item.pinned ? '取消' : '' }}置顶</div>
                   </div>
                 </template>
                 <template v-if="global&&global.userinfo.id === item.userId">
                   <div class="flex flex-col gap-1 cursor-pointer items-center" @click="go2Edit(item.id)">
-                    <UIcon class="text-[#9fc84a] w-5 h-5" name="i-carbon-edit"/>
+                    <UIcon class="text-[#9fc84a] w-5 h-5" name="mdi:square-edit-outline"/>
                     <div>编辑</div>
                   </div>
                 </template>
                 <template v-if="(global.userinfo.id === 1 || global.userinfo.id === item.userId) ">
                 <Confirm @ok="removeMemo(item.id)" @cancel="moreToolbar = false">
                   <div class="flex flex-col gap-1 cursor-pointer items-center">
-                    <UIcon class="text-[#9fc84a] w-5 h-5" name="i-carbon-trash-can"/>
+                    <UIcon class="text-[#9fc84a] w-5 h-5" name="mdi:trash-can-outline"/>
                   <div>删除</div>
                   </div>
                 </Confirm>
@@ -119,7 +119,7 @@
         <div class="rounded bottom-shadow bg-[#f7f7f7] dark:bg-[#202020] flex flex-col gap-1"
         >
           <div class="flex flex-row py-2 px-4 gap-2 items-center text-sm" v-if="item.favCount>0">
-            <UIcon name="i-carbon-favorite" class="text-red-500"/>
+            <UIcon name="mdi:favorite-border" class="text-red-500"/>
             <div class="text-[#576b95]"><span class="mx-1">{{ item.favCount }}</span>位访客</div>
           </div>
           <div class="flex flex-col gap-1" v-if="sysConfig.enableComment">

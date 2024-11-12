@@ -6,13 +6,13 @@
 <!--      <UButton @click="logout" icon="i-carbon-logout" size="xs" color="white" variant="solid">登出</UButton>-->
 <!--    </div>-->
     <UFormGroup label="头像" name="avatarUrl" :ui="{label:{base:'font-bold'}}">
-      <UInput type="file" size="sm" icon="i-heroicons-folder" @change="uploadAvatarUrl"/>
+      <UInput type="file" size="sm" icon="mdi:folder-open-outline" @change="uploadAvatarUrl"/>
       <div class="text-gray-500 text-sm my-2">或者输入在线地址</div>
       <UInput v-model="state.avatarUrl" class="mb-2"/>
       <UAvatar :src="state.avatarUrl" size="lg"/>
     </UFormGroup>
     <UFormGroup label="顶部图片" name="coverUrl" :ui="{label:{base:'font-bold'}}">
-      <UInput type="file" size="sm" icon="i-heroicons-folder" @change="uploadCoverUrl"/>
+      <UInput type="file" size="sm" icon="mdi:folder-open-outline" @change="uploadCoverUrl"/>
       <div class="text-gray-500 text-sm my-2">或者输入在线地址</div>
       <UInput v-model="state.coverUrl" class="mb-2"/>
       <img :src="state.coverUrl" class="w-full rounded object-cover" alt="" />
@@ -30,8 +30,8 @@
       <UInput v-model="state.password" type="password" placeholder="留空则不修改密码"/>
     </UFormGroup>
     <div class="flex gap-2">
-      <UButton class="justify-center grow" @click="logout" icon="i-carbon-logout" size="xs" color="white" variant="solid">登出</UButton>
-      <UButton class="justify-center grow" @click="save" icon="i-mage-verified-check" size="xs">保存</UButton>
+      <UButton class="justify-center grow" @click="logout" icon="mdi:logout" size="md" color="white" variant="solid">登出</UButton>
+      <UButton class="justify-center grow" @click="save" icon="mdi:verified" size="md">保存</UButton>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <Header v-if="memos.length>0" v-bind:user="memos[0].user"/>
 
   <div class="flex justify-end gap-2 sm:hidden px-4 my-2">
-    <UButton @click="navigateTo('/')" icon="i-carbon-arrow-left" size="xs" color="gray" variant="solid">返回</UButton>
+    <UButton @click="navigateTo('/')" icon="mdi:arrow-left-top" size="xs" color="gray" variant="solid">返回</UButton>
   </div>
 
   <div class="flex flex-col divide-y divide-[#C0BEBF]/20 ">

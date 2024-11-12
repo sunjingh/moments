@@ -22,7 +22,7 @@ function selectRange (duration: Duration) {
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
-    <UButton icon="i-heroicons-calendar-days-20-solid">
+    <UButton icon="mdi:calendar-month-outline">
       {{ format(selected.start, 'd MMM, yyy') }} - {{ format(selected.end, 'd MMM, yyy') }}
     </UButton>
 

@@ -2,8 +2,8 @@ import type {ResultVO, SysConfigVO} from "~/types";
 import {toast} from "vue-sonner";
 import {useGlobalState} from "~/store";
 import markdownit from "markdown-it";
-import { fromHighlighter } from '@shikijs/markdown-it/core'
-import { createHighlighterCore } from 'shiki/core'
+import {fromHighlighter} from '@shikijs/markdown-it/core'
+import {createHighlighterCore} from 'shiki/core'
 
 
 const global = useGlobalState()
@@ -66,7 +66,7 @@ const upload2S3WithProgress = async (preSignedUrl: string, file: File, onProgres
         xhr.addEventListener('abort', () => reject(new Error('File upload aborted')));
         xhr.open('PUT', preSignedUrl, true);
         //@ts-ignore
-        xhr.setRequestHeader('Content-Type', null);
+        // xhr.setRequestHeader('Content-Type', null);
         xhr.send(file);
     })
 }
@@ -158,7 +158,7 @@ createHighlighterCore({
         import('shiki/langs/go.mjs'),
     ],
     loadWasm: import('shiki/wasm')
-}).then((highlighter)=>{
+}).then((highlighter) => {
     //@ts-ignore
     md.use(fromHighlighter(highlighter, {
         themes: {

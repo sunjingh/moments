@@ -11,7 +11,8 @@
         <UInput placeholder="姓名" v-model="state.username"/>
         <UInput placeholder="网站" v-model="state.website"/>
       </template>
-      <UButton color="white" @click="comment">发布评论</UButton>
+      <UButton :loading="commentLoading" @click="comment">发布评论</UButton>
+      <UButton color="white" @click="currentCommentBox = ''">取消</UButton>
     </div>
   </div>
 </template>
@@ -48,8 +49,9 @@ const state = reactive({
   website: localCommentUserinfo.value.website,
 })
 
-
+const commentLoading = ref(false)
 const comment = async () => {
+  commentLoading.value = true
   if (sysConfig.value.enableGoogleRecaptcha) {
     grecaptcha.ready(() => {
       grecaptcha.execute(sysConfig.value.googleSiteKey, {action: 'newComment'}).then(async (token) => {
@@ -72,7 +74,8 @@ const doComment = async (token?: string) => {
     toast.error("评论字数超过限制长度:" + sysConfig.value.maxCommentLength)
     return
   }
-  await useMyFetch('/comment/add', {...state, token:token})
+  await useMyFetch('/comment/add', {...state, token: token})
+  commentLoading.value = false
   toast.success("评论成功!")
   currentCommentBox.value = ''
   state.username = ''

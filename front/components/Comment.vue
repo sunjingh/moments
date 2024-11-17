@@ -5,19 +5,24 @@
       <UBadge color="gray" variant="solid" size="xs">作者</UBadge>
     </span>
     <span v-else class="text-[#576b95] text-nowrap">{{ props.comment.username }}</span>
-   <template v-if="props.comment.replyTo">
-     <span class="mx-1">回复</span>
-     <span  class="text-[#576b95] text-nowrap">{{props.comment.replyTo}}</span>
-   </template>
+    <template v-if="props.comment.replyTo">
+      <span class="mx-1">回复</span>
+      <span class="text-[#576b95] text-nowrap">{{ props.comment.replyTo }}</span>
+    </template>
     <span class="mx-0.5">:</span>
     <span class="inline break-all cursor-pointer" @click="toggle">{{ props.comment.content }}</span>
-    <span class="text-xs text-gray-400 ml-2 hidden sm:inline-block">{{$dayjs(props.comment.createdAt).fromNow()}}</span>
-    <span class="text-xs text-gray-400 ml-2 inline-flex" v-if="(global.userinfo.id === props.memoUserId || global.userinfo.id === 1)">
+    <span
+        class="text-xs text-gray-400 ml-2 hidden sm:inline-block">{{ $dayjs(props.comment.createdAt).fromNow() }}</span>
+    <span class="text-xs text-gray-400 ml-2 inline-flex"
+          v-if="(global.userinfo.id === props.memoUserId || global.userinfo.id === 1)">
       <Confirm @ok="removeComment">
-        <IconMdiTrashCanOutline class="cursor-pointer text-red-400"/>
+        <div class="flex">
+          &nbsp;
+          <IconMdiTrashCanOutline class="cursor-pointer text-red-400"/>
+        </div>
       </Confirm>
     </span>
-    
+
   </div>
   <CommentBox :memo-id="props.memoId" :reply-to="props.comment.username" :comment-id="props.comment.id"/>
 </template>

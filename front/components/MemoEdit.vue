@@ -19,7 +19,14 @@
           <span v-else>选择标签</span>
         </template>
       </USelectMenu>
-      <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
+      <div class="relative">
+        <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
+        <div class="animate-bounce absolute right-2 bottom-1 cursor-pointer text-xl select-none" @click="toggleEmoji">
+          😊
+        </div>
+      </div>
+
+      <Emoji v-if="emojiShow" @selected="emojiSelected"/>
 
       <UContextMenu v-model="isOpen" :virtual-element="virtualElement">
         <div class="px-2 py-1 flex flex-col gap-2 text-xs">
@@ -57,7 +64,7 @@
 
         <UButtonGroup>
           <UButton color="gray" variant="solid" @click="navigateTo('/')">返回</UButton>
-          <UButton @click="saveMemo">发表</UButton>
+          <UButton :loading="saveLoading" @click="saveMemo">发表</UButton>
         </UButtonGroup>
       </div>
     </div>
@@ -93,6 +100,7 @@ import type {
 } from "~/types";
 import {toast} from "vue-sonner";
 import UploadImage from "~/components/UploadImage.vue";
+import Emoji from "~/components/Emoji.vue";
 
 const doubanType = ref<'book' | 'movie'>('book')
 const doubanData = ref<DoubanBook | DoubanMovie>({})
@@ -222,6 +230,16 @@ const clickTag = (tag: string) => {
   //@ts-ignore
   (contentRef.value?.textarea as HTMLTextAreaElement).focus()
 }
+
+const emojiShow = ref(false)
+
+const toggleEmoji = () => {
+  emojiShow.value = !emojiShow.value
+}
+const emojiSelected = (emoji: string) => {
+  state.content = state.content + emoji
+}
+
 onMounted(async () => {
   if (state.id > 0) {
     const res = await useMyFetch<MemoVO>('/memo/get?id=' + state.id)
@@ -243,8 +261,14 @@ onMounted(async () => {
 //   }
 // }
 
-const saveMemo = async () => {
+const saveLoading = ref(false)
 
+const saveMemo = async () => {
+  if (state.content === '') {
+    toast.error("请输入内容!")
+    return
+  }
+  saveLoading.value = true
   const doubanKey = doubanType.value === 'book' ? 'doubanBook' : 'doubanMovie'
   await useMyFetch('/memo/save', {
     id: state.id,
@@ -263,8 +287,11 @@ const saveMemo = async () => {
     location: state.location,
     tags: selectedLabel.value
   })
-  toast.success("保存成功!")
-  await navigateTo('/')
+  setTimeout(() => {
+    saveLoading.value = false
+    toast.success("保存成功!")
+    navigateTo('/')
+  }, 1000)
 }
 
 </script>

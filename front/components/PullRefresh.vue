@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="refresh-indicator"
-         :style="{ height: `${distance}px`, transition: isRefreshing ? 'height 0.3s ease' : 'none' }">
+         :style="{ height: `${distance}px`, transition: 'height 0.3s ease' }">
       <span v-if="distance > refreshThreshold && !isRefreshing">释放刷新</span>
       <span v-else-if="isRefreshing">正在刷新...</span>
       <span v-else>下拉刷新</span>

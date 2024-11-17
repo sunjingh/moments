@@ -1,5 +1,5 @@
 <script setup>
-import { Fancybox } from '@fancyapps/ui/dist/index.esm.js';
+import {Fancybox} from '@fancyapps/ui/dist/index.esm.js';
 
 const props = defineProps({
   options: Object,

@@ -1,5 +1,13 @@
 <template>
   <div class="px-4 space-y-2">
+    <div class="flex justify-between items-center pt-4 text-gray-600">
+      <NuxtLink class="flex items-center" title="返回主页">
+        <UIcon @click="navigateTo('/')" name="i-carbon-chevron-left" class="w-5 h-5 cursor-pointer mr-4"/>
+        <span v-if="$route.path==='/new'">新增内容</span>
+        <span v-else>修改内容</span>
+      </NuxtLink>
+      <UButton @click="saveMemo">发表</UButton>
+    </div>
     <div class="flex gap-2 text-lg text-gray-600 pt-4 ">
       <ExternalUrl v-model:favicon="state.externalFavicon" v-model:title="state.externalTitle"
                    v-model:url="state.externalUrl"/>
@@ -12,6 +20,7 @@
     </div>
 
     <div class="w-full" @contextmenu.prevent="onContextMenu">
+      <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
                    multiple searchable creatable placeholder="选择标签" class="my-2">
         <template #label>
@@ -27,6 +36,7 @@
       </div>
 
       <Emoji v-if="emojiShow" @selected="emojiSelected"/>
+
 
       <UContextMenu v-model="isOpen" :virtual-element="virtualElement">
         <div class="px-2 py-1 flex flex-col gap-2 text-xs">

@@ -42,9 +42,12 @@
           </template>
         </UInput>
 
-        <p v-if="filename" class="text-xs text-gray-400">正在上传({{ current }}/{{ total }})</p>
-        <p v-if="filename" class="text-xs text-gray-400">{{ filename }}</p>
-        <UProgress :value="progress" v-if="progress > 0" indicator/>
+            <p v-if="filename" class="text-xs text-gray-400">正在上传({{ current }}/{{ total }})</p>
+            <p v-if="filename" class="text-xs text-gray-400">{{ filename }}</p>
+            <UProgress :value="progress" v-if="progress > 0" indicator/>
+          </template>
+        </UTabs>
+
 
         <UButtonGroup>
           <UButton @click="confirm(close)">确定</UButton>
@@ -74,6 +77,13 @@ const progress = ref(0)
 const filename = ref('')
 const total = ref(0)
 const current = ref(0)
+const items = [{
+  slot: 'uploadVideo',
+  label: '本地'
+}, {
+  slot: 'onlineUrl',
+  label: '在线'
+}]
 
 watch(props, () => {
   videoType.value = props.type

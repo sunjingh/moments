@@ -6,7 +6,7 @@
         <span v-if="$route.path==='/new'">新增内容</span>
         <span v-else>修改内容</span>
       </NuxtLink>
-      <UButton @click="saveMemo">发表</UButton>
+      <UButton :loading="saveLoading" @click="saveMemo">发表</UButton>
     </div>
     <div class="flex gap-2 text-lg text-gray-600 pt-4 ">
       <ExternalUrl v-model:favicon="state.externalFavicon" v-model:title="state.externalTitle"
@@ -20,7 +20,6 @@
     </div>
 
     <div class="w-full" @contextmenu.prevent="onContextMenu">
-      <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
                    multiple searchable creatable placeholder="选择标签" class="my-2">
         <template #label>

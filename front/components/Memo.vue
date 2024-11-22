@@ -16,7 +16,9 @@
           <div>
             <IconMdiArrowTopBoldBoxOutline v-if="item.pinned"/>
             <IconMdiLockOutline v-if="item.showType === 0" class="text-red-500 ml-2 dark:text-white"/>
-            <IconMdiDotsVertical v-if="($route.path === `/memo/${item.id}` && (global.userinfo.id === 1 || global.userinfo.id === item.userId))" class="text-red-500 ml-2 dark:text-white cursor-pointer" @click="moreToolbar = true" />
+            <IconMdiDotsVertical
+                v-if="($route.path === `/memo/${item.id}` && (global.userinfo.id === 1 || global.userinfo.id === item.userId))"
+                class="text-red-500 ml-2 dark:text-white cursor-pointer" @click="moreToolbar = true"/>
           </div>
         </div>
         <div class="mb-2">
@@ -64,7 +66,7 @@
               sysConfig.timeFormat === 'timeAgo' ? $dayjs(item.createdAt).fromNow() : $dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss")
             }}
           </div>
-          <div @click="showToolbar=true"
+          <div @click="showToolbar = !showToolbar"
                class="toolbar-icon px-2 py-1 bg-[#f7f7f7] dark:bg-slate-700 hover:bg-[#dedede] cursor-pointer rounded flex items-center justify-center"
           >
             <img
@@ -93,24 +95,24 @@
               <div class="flex items-center justify-center gap-8 p-4 text-gray-500 dark:text-white">
                 <template v-if="global.userinfo.id === 1">
                   <div class="flex flex-col gap-1 cursor-pointer items-center" @click="setPinned(item.id)">
-                    <IconMdiArrowTopBoldBoxOutline class="text-[#9fc84a] w-5 h-5" />
+                    <IconMdiArrowTopBoldBoxOutline class="text-[#9fc84a] w-5 h-5"/>
                     <div>{{ item.pinned ? '取消' : '' }}置顶</div>
                   </div>
                 </template>
                 <template v-if="global&&global.userinfo.id === item.userId">
                   <div class="flex flex-col gap-1 cursor-pointer items-center" @click="go2Edit(item.id)">
-                    <IconMdiSquareEditOutline class="text-[#9fc84a] w-5 h-5" />
+                    <IconMdiSquareEditOutline class="text-[#9fc84a] w-5 h-5"/>
                     <div>编辑</div>
                   </div>
                 </template>
                 <template v-if="(global.userinfo.id === 1 || global.userinfo.id === item.userId) ">
-                <Confirm @ok="removeMemo(item.id)" @cancel="moreToolbar = false">
-                  <div class="flex flex-col gap-1 cursor-pointer items-center">
-                    <IconMdiTrashCanOutline class="text-[#9fc84a] w-5 h-5" />
-                  <div>删除</div>
-                  </div>
-                </Confirm>
-              </template>
+                  <Confirm @ok="removeMemo(item.id)" @cancel="moreToolbar = false">
+                    <div class="flex flex-col gap-1 cursor-pointer items-center">
+                      <IconMdiTrashCanOutline class="text-[#9fc84a] w-5 h-5"/>
+                      <div>删除</div>
+                    </div>
+                  </Confirm>
+                </template>
               </div>
             </UModal>
           </template>
@@ -182,7 +184,11 @@ const moreToolbar = ref(false)
 const showToolbar = ref(false)
 const toolbarRef = ref(null)
 const liked = ref(false)
-onClickOutside(toolbarRef, () => showToolbar.value = false)
+onClickOutside(toolbarRef, () => {
+  setTimeout(() => {
+    if (showToolbar.value) showToolbar.value = false
+  }, 0)
+})
 
 const location = computed(() => {
   return (item.value.location || "").replaceAll(" ", " · ")
@@ -288,10 +294,10 @@ onMounted(() => {
 
 const content = computed(() => {
   if (item.value.content && item.value.content.length > 0) {
-    try{
+    try {
       return md.render(item.value.content)
-    }catch (e) {
-      console.log('内容渲染错误,请重新编辑',e)
+    } catch (e) {
+      console.log('内容渲染错误,请重新编辑', e)
       return "内容渲染错误,请重新编辑"
     }
   }

@@ -84,6 +84,7 @@ const toggleMode = () => {
 
 const goToSettings = () => {
   if (!global.value.userinfo.token) return
+  if (props.user.id === global.value.userinfo.id) return
   navigateTo('/user/settings')
 }
 </script>

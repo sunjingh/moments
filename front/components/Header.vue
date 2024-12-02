@@ -1,6 +1,7 @@
 <template>
-  <div class="header relative mb-14" v-if="$route.path!=='/new' && $route.path.indexOf('/edit/') < 0">
-    <div v-if="$route.path!=='/' && $route.path.indexOf('/memo/') < 0" :class="{ 'bg-[#4c4c4c]/80 z-10': y > 100 }" class="flex fixed justify-between items-center p-4 w-full md:w-[567px] text-white top-0">
+  <div class="header relative pb-14 dark:bg-neutral-800" v-if="$route.path !== '/new' && $route.path.indexOf('/edit/') < 0">
+    <div v-if="$route.path!=='/' && $route.path.indexOf('/memo/') < 0" :class="{ 'bg-[#4c4c4c]/80 z-10': y > 100 }"
+         class="flex fixed justify-between items-center p-4 w-full md:w-[567px] text-white top-0">
       <NuxtLink class="flex items-center" title="返回主页">
         <UIcon @click="navigateTo('/')" name="i-carbon-chevron-left" class="w-5 h-5 cursor-pointer mr-4"/>
         <span v-if="$route.path==='/user/calendar'">日历检索</span>
@@ -69,7 +70,7 @@
 
     <img class="header-img w-full" :src="props.user.coverUrl"
          alt="">
-    <div class="absolute right-2 bottom-[-40px]">
+    <div class="absolute right-2 bottom-2">
       <div class="userinfo flex flex-col">
         <div class="flex flex-row items-center gap-4 justify-end">
           <div class="username text-lg font-bold text-white">{{ props.user.nickname }}</div>

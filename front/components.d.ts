@@ -28,6 +28,8 @@ declare module 'vue' {
     IconMdiLoginVariant: typeof import('~icons/mdi/login-variant')['default']
     IconMdiLogout: typeof import('~icons/mdi/logout')['default']
     IconMdiMusic: typeof import('~icons/mdi/music')['default']
+    IconMdiPinwheelOutline: typeof import('~icons/mdi/pinwheel-outline')['default']
+    IconMdiRefresh: typeof import('~icons/mdi/refresh')['default']
     IconMdiSettingsOutline: typeof import('~icons/mdi/settings-outline')['default']
     IconMdiSquareEditOutline: typeof import('~icons/mdi/square-edit-outline')['default']
     IconMdiTrashCanOutline: typeof import('~icons/mdi/trash-can-outline')['default']

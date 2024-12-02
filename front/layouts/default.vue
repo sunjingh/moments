@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:w-[567px] mx-auto h-full border-b border-slate-100 shadow-inner">
+  <div class="w-full md:w-[567px] mx-auto h-full border-b dark:border-b-gray-600 border-slate-100 shadow-inner">
     <slot/>
     <!--<Footer/>-->
   </div>

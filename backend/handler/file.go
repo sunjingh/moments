@@ -101,8 +101,10 @@ type PreSignedReq struct {
 }
 
 type s3PresignedResp struct {
-	PreSignedUrl string `json:"preSignedUrl,omitempty"` //S3预签名上传地址
-	ImageUrl     string `json:"imageUrl,omitempty"`     //实际的图片地址
+	PreSignedUrl          string `json:"preSignedUrl,omitempty"`          //S3预签名上传地址
+	ImageUrl              string `json:"imageUrl,omitempty"`              //实际的图片地址
+	ThumbnailPreSignedUrl string `json:"thumbnailPreSignedUrl,omitempty"` //S3预签名缩略图上传地址
+	ThumbnailImageUrl     string `json:"thumbnailImageUrl,omitempty"`     //实际的缩略图图片地址
 }
 
 // S3PreSigned godoc
@@ -116,7 +118,6 @@ type s3PresignedResp struct {
 //	@Success	200			{object}	s3PresignedResp
 //	@Router		/api/file/s3PreSigned [post]
 func (f FileHandler) S3PreSigned(c echo.Context) error {
-
 	var (
 		req         PreSignedReq
 		sysConfig   db.SysConfig
@@ -126,6 +127,7 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 		return FailResp(c, ParamError)
 	}
 
+	// 获取系统配置
 	if err := f.base.db.First(&sysConfig).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 		return FailResp(c, Fail)
 	}
@@ -133,6 +135,8 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 		f.base.log.Error().Msgf("无法反序列化系统配置, %s", err)
 		return FailRespWithMsg(c, Fail, err.Error())
 	}
+
+	// 配置 AWS SDK
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(sysConfigVo.S3.Region),
 		config.WithEndpointResolver(aws.EndpointResolverFunc(func(service, region string) (aws.Endpoint, error) {
 			return aws.Endpoint{URL: sysConfigVo.S3.Endpoint, HostnameImmutable: true}, nil
@@ -146,7 +150,13 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 	client := s3.NewFromConfig(cfg)
 	presignedClient := s3.NewPresignClient(client)
 
+	// 生成原图的 key
 	key := fmt.Sprintf("%s/%s", time.Now().Format("2006/01/02"), strings.ReplaceAll(uuid.NewString(), "-", ""))
+	// 生成缩略图的 key（可以在原图的基础上加上缩略图后缀）
+	thumbnailKey := fmt.Sprintf("%s%s", key, sysConfigVo.S3.ThumbnailSuffix) // 动态后缀
+	// thumbnailKey := fmt.Sprintf("%s/%s_thumbnail", time.Now().Format("2006/01/02"), strings.ReplaceAll(uuid.NewString(), "-", ""))
+
+	// 为原图生成预签名URL
 	presignedResult, err := presignedClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:      aws.String(sysConfigVo.S3.Bucket),
 		Key:         aws.String(key),
@@ -160,8 +170,25 @@ func (f FileHandler) S3PreSigned(c echo.Context) error {
 		return FailRespWithMsg(c, Fail, fmt.Sprintf("无法获取预签名URL, %s", err))
 	}
 
+	// 为缩略图生成预签名URL
+	thumbnailPresignedResult, err := presignedClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
+		Bucket:      aws.String(sysConfigVo.S3.Bucket),
+		Key:         aws.String(thumbnailKey),
+		ContentType: aws.String(req.ContentType),
+	}, func(opts *s3.PresignOptions) {
+		opts.Expires = time.Minute * 5
+	})
+
+	if err != nil {
+		f.base.log.Error().Msgf("无法获取缩略图预签名URL, %s", err)
+		return FailRespWithMsg(c, Fail, fmt.Sprintf("无法获取缩略图预签名URL, %s", err))
+	}
+
+	// 返回原图和缩略图的预签名URL及最终图片URL
 	return SuccessResp(c, s3PresignedResp{
-		PreSignedUrl: presignedResult.URL,
-		ImageUrl:     fmt.Sprintf("%s/%s", sysConfigVo.S3.Domain, key),
+		PreSignedUrl:          presignedResult.URL,
+		ImageUrl:              fmt.Sprintf("%s/%s", sysConfigVo.S3.Domain, key),
+		ThumbnailPreSignedUrl: thumbnailPresignedResult.URL,
+		ThumbnailImageUrl:     fmt.Sprintf("%s/%s", sysConfigVo.S3.Domain, thumbnailKey),
 	})
 }

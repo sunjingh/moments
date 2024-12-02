@@ -1,11 +1,13 @@
 <template>
   <div class="header relative mb-14" v-if="$route.path === `/memo/${item.id}`">
-    <div :class="{ 'bg-[#4c4c4c]/80 z-10': y > 100 }" class="flex fixed justify-between items-center p-4 w-full md:w-[567px] text-white top-0">
+    <div :class="{ 'bg-[#4c4c4c]/80 z-10': y > 100 }"
+         class="flex fixed justify-between items-center p-4 w-full md:w-[567px] text-white top-0">
       <NuxtLink class="flex items-center" title="返回主页">
         <UIcon @click="navigateTo('/')" name="i-carbon-chevron-left" class="w-5 h-5 cursor-pointer mr-4"/>
         <span>详情</span>
       </NuxtLink>
-      <UIcon v-if="global.userinfo.id === 1 || global.userinfo.id === item.userId" name="i-solar-menu-dots-bold" class="w-5 h-5 cursor-pointer" @click="moreToolbar = true" />
+      <UIcon v-if="global.userinfo.id === 1 || global.userinfo.id === item.userId" name="i-solar-menu-dots-bold"
+             class="w-5 h-5 cursor-pointer" @click="moreToolbar = true"/>
     </div>
   </div>
   <div>
@@ -42,7 +44,7 @@
 
             <span v-for="(tag,index) in tags" :key="`tag-${index}`">
               <NuxtLink :to="`/tags/${item.user.username}/${tag}`">
-                <UBadge size="xs" color="gray" variant="solid">{{ tag }}</UBadge>
+                <UBadge size="xs" color="gray" variant="solid">#{{ tag }}</UBadge>
               </NuxtLink>
             </span>
           </div>
@@ -51,7 +53,7 @@
         <div class="flex flex-col gap-2">
           <external-url-preview :favicon="item.externalFavicon" :title="item.externalTitle" :url="item.externalUrl"
                                 v-if="item.externalFavicon&&item.externalTitle&&item.externalUrl"/>
-          <upload-image-preview :imgs="item.imgs||''" :memo-id="item.id"/>
+          <upload-image-preview :imgs="item.imgs||''"/>
 
           <music-preview v-if="extJSON.music && extJSON.music.id" v-bind="extJSON.music"/>
           <douban-book-preview v-if="extJSON.doubanBook && extJSON.doubanBook.title" :book="extJSON.doubanBook"/>

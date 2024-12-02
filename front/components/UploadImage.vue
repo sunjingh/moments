@@ -4,7 +4,7 @@
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">
         <div class="text-xs text-gray-400">本地上传</div>
-        <UInput type="file" size="sm" @change="upload" multiple>
+        <UInput accept="image/*" type="file" size="sm" @change="upload" multiple>
           <template #leading>
             <IconMdiFolderOpenOutline/>
           </template>

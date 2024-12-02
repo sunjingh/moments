@@ -56,11 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import type {UserVO} from "~/types";
+import type {SysConfigVO, UserVO} from "~/types";
 import {toast} from "vue-sonner";
-import {useUpload} from "~/utils";
+import {uGetThumbnailImgPath, useUpload} from "~/utils";
 import {useGlobalState} from "~/store";
 
+const sysConfig = useState<SysConfigVO>('sysConfig')
 const global = useGlobalState()
 const currentUser = useState<UserVO>('userinfo')
 const state = reactive({
@@ -101,7 +102,7 @@ const uploadAvatarUrl = async (files: FileList) => {
   const result = await useUpload(files)
   toast.success("上传成功")
   if (result) {
-    state.avatarUrl = result[0]
+    state.avatarUrl = uGetThumbnailImgPath(result[0], sysConfig.value.s3.thumbnailSuffix)
   }
 }
 
@@ -115,7 +116,7 @@ const uploadCoverUrl = async (files: FileList) => {
   const result = await useUpload(files)
   toast.success("上传成功")
   if (result) {
-    state.coverUrl = result[0]
+    state.coverUrl = uGetThumbnailImgPath(result[0], sysConfig.value.s3.thumbnailSuffix)
   }
 }
 

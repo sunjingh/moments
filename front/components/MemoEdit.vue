@@ -6,7 +6,11 @@
         <span v-if="$route.path==='/new'">新增内容</span>
         <span v-else>修改内容</span>
       </NuxtLink>
-      <UButton :loading="saveLoading" @click="saveMemo">发表</UButton>
+      <UButton label="发表" :disabled="saveLoading" @click="saveMemo">
+        <template #leading v-if="saveLoading">
+          <IconMdiRefresh class="animate-spin"/>
+        </template>
+      </UButton>
     </div>
     <div class="flex gap-2 text-lg text-gray-600 pt-4 ">
       <ExternalUrl v-model:favicon="state.externalFavicon" v-model:title="state.externalTitle"
@@ -15,7 +19,7 @@
       <upload-image v-model:imgs="state.imgs"/>
       <music v-bind="state.music" @confirm="updateMusic"/>
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
-      <douban-edit v-model:type="doubanType" v-model:data="doubanData"/>
+      <!--<douban-edit v-model:type="doubanType" v-model:data="doubanData"/>-->
       <IconMdiDeleteForeverOutline @click="reset" class="w-6 h-6 cursor-pointer" title="清空"/>
     </div>
 
@@ -34,7 +38,7 @@
         </div>
       </div>
 
-      <Emoji v-if="emojiShow" @selected="emojiSelected"/>
+      <Emoji v-if="emojiShow" @selected="emojiSelected" @close="emojiShow=false"/>
 
 
       <UContextMenu v-model="isOpen" :virtual-element="virtualElement">
@@ -70,11 +74,6 @@
           <UTabs v-model="state.showType" :items="[{label: '私密'}, {label: '公开'}, {label: '内部'}]"
                  :ui="{wrapper: 'space-y-0', list: {height: 'h-8', tab: {height: 'h-6', padding: 'px-2'}}}"/>
         </div>
-
-        <UButtonGroup>
-          <UButton color="gray" variant="solid" @click="navigateTo('/')">返回</UButton>
-          <UButton :loading="saveLoading" @click="saveMemo">发表</UButton>
-        </UButtonGroup>
       </div>
     </div>
 
@@ -296,11 +295,9 @@ const saveMemo = async () => {
     location: state.location,
     tags: selectedLabel.value
   })
-  setTimeout(() => {
-    saveLoading.value = false
-    toast.success("保存成功!")
-    navigateTo('/')
-  }, 1000)
+  saveLoading.value = false
+  toast.success("保存成功!")
+  navigateTo('/')
 }
 
 </script>

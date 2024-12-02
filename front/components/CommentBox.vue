@@ -11,7 +11,11 @@
         <UInput placeholder="姓名" v-model="state.username"/>
         <UInput placeholder="网站" v-model="state.website"/>
       </template>
-      <UButton :loading="commentLoading" @click="comment">发布评论</UButton>
+      <UButton label="发布评论" :disabled="commentLoading" @click="comment">
+        <template #leading v-if="commentLoading">
+          <IconMdiRefresh class="animate-spin"/>
+        </template>
+      </UButton>
       <UButton color="white" @click="currentCommentBox = ''">取消</UButton>
     </div>
   </div>
@@ -51,6 +55,10 @@ const state = reactive({
 
 const commentLoading = ref(false)
 const comment = async () => {
+  if (state.content === '') {
+    toast.error("请输入内容!")
+    return
+  }
   commentLoading.value = true
   if (sysConfig.value.enableGoogleRecaptcha) {
     grecaptcha.ready(() => {

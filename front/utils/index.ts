@@ -4,6 +4,7 @@ import {useGlobalState} from "~/store";
 import markdownit from "markdown-it";
 import {fromHighlighter} from '@shikijs/markdown-it/core'
 import {createHighlighterCore} from 'shiki/core'
+import exp from "node:constants";
 
 
 const global = useGlobalState()
@@ -38,14 +39,21 @@ export async function useMyFetch<T>(url: string, data?: any) {
 async function upload2S3(files: FileList, onProgress: Function | undefined) {
     const result = []
     for (let i = 0; i < files.length; i++) {
-        const {preSignedUrl, imageUrl} = await useMyFetch<{
+        const {preSignedUrl, imageUrl, thumbnailPreSignedUrl, thumbnailImageUrl} = await useMyFetch<{
             preSignedUrl: string,
-            imageUrl: string
+            imageUrl: string,
+            thumbnailPreSignedUrl: string,
+            thumbnailImageUrl: string,
         }>('/file/s3PreSigned', {
             contentType: files[0].type
         })
+        console.log('✨✨✨index.ts:49 thumbnailPreSignedUrl===>', thumbnailPreSignedUrl)
+        console.log('✨✨✨index.ts:50 thumbnailImageUrl===>', thumbnailImageUrl)
         await upload2S3WithProgress(preSignedUrl, files[i], (name: string, progress: number) => {
             onProgress && onProgress(files.length, i + 1, name, progress)
+        })
+        const thumbnailFile = await createThumbnail(files[i])
+        await upload2S3WithProgress(thumbnailPreSignedUrl, thumbnailFile, () => {
         })
         result.push(imageUrl)
     }
@@ -83,11 +91,11 @@ export async function useUpload(files: FileList | null, onProgress: Function | u
         return
     }
 
-        const userinfo = global.value.userinfo
-        const headers: Record<string, any> = {}
-        if (userinfo.token) {
-            headers["x-api-token"] = userinfo.token
-        }
+    const userinfo = global.value.userinfo
+    const headers: Record<string, any> = {}
+    if (userinfo.token) {
+        headers["x-api-token"] = userinfo.token
+    }
 
     if (sysConfig.value.enableS3) {
         return await upload2S3(files, onProgress)
@@ -171,3 +179,47 @@ createHighlighterCore({
     }))
 })
 
+export const THUMBNAIL_SCALE = 2
+
+export function createThumbnail(file: File) {
+    return new Promise<File>((resolve, reject) => {
+        const img = new Image();
+        const objectUrl = URL.createObjectURL(file);
+        img.onload = function () {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            const width = img.width / THUMBNAIL_SCALE;
+            const height = img.height / THUMBNAIL_SCALE;
+
+            // if (width > height) {
+            //     if (width > maxWidth) {
+            //         height *= maxWidth / width;
+            //         width = maxWidth;
+            //     }
+            // } else {
+            //     if (height > maxHeight) {
+            //         width *= maxHeight / height;
+            //         height = maxHeight;
+            //     }
+            // }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx!.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+                resolve(new File([blob!], file.name, {type: 'image/jpeg'}));  // Return thumbnail image as a Blob object
+            }, "image/jpeg", 0.7);
+
+            URL.revokeObjectURL(objectUrl);
+        };
+        img.onerror = reject;
+        img.src = objectUrl;
+    });
+}
+
+export function uGetThumbnailImgPath(imgPath: string, thumbnailSuffix: string) {
+    return imgPath.replace(/(\.[^.]+)$/, `$1${thumbnailSuffix}`)
+}

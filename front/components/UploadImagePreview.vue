@@ -1,10 +1,9 @@
 <template>
   <div ref="el" v-if="($route.path.startsWith('/new') || $route.path.startsWith('/edit')) && images.length>0"
        :style="gridStyle" class="grid gap-2">
-    <div :key="img" v-for="img in images" class="relative">
-      <img :src="getImageUrl(img)" alt="" class="cursor-move rounded relative"
-           :class="images.length === 1 ? 'full-cover-image-single' : 'full-cover-image-mult'">
-      <div class="absolute right-6 top-0 px-1 bg-white m-2 rounded hover:text-red-500 cursor-pointer"
+    <div :key="img" v-for="img in images" class="relative w-20 h-20 border border-solid border-gray-300 rounded-2xl">
+      <img :src="getImageUrl(img)" alt="" class="cursor-move rounded relative rounded-2xl full-cover-image-mult">
+      <div class="absolute right-0 top-0 p-1 rounded hover:text-red-500 cursor-pointer"
            @click="removeImage(img)">
         <IconMdiTrashCanOutline class=""/>
       </div>

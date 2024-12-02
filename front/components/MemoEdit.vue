@@ -17,7 +17,7 @@
                    v-model:url="state.externalUrl"/>
 
       <upload-image v-model:imgs="state.imgs"/>
-      <music v-bind="state.music" @confirm="updateMusic"/>
+      <!--<music v-bind="state.music" @confirm="updateMusic"/>-->
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
       <!--<douban-edit v-model:type="doubanType" v-model:data="doubanData"/>-->
       <IconMdiDeleteForeverOutline @click="reset" class="w-6 h-6 cursor-pointer" title="清空"/>
@@ -77,9 +77,13 @@
       </div>
     </div>
 
+    <div>
+      <UploadMedia v-model:imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>
+    </div>
+
     <div class="flex flex-col gap-2">
       <external-url-preview :favicon="state.externalFavicon" :title="state.externalTitle" :url="state.externalUrl"/>
-      <upload-image-preview :imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>
+      <!--<upload-image-preview :imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>-->
       <music-preview v-if="state.music && state.music.id && state.music.type && state.music.server"
                      v-bind="state.music"/>
       <douban-book-preview :book="doubanData" v-if="doubanType === 'book' && doubanData&& doubanData.title"/>

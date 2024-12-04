@@ -1,13 +1,14 @@
 <template>
-  <div ref="el" v-if="($route.path.startsWith('/new') || $route.path.startsWith('/edit')) && images.length>0"
-       :style="gridStyle" class="grid gap-2">
-    <div :key="img" v-for="img in images" class="relative w-20 h-20 border border-solid border-gray-300 rounded-2xl">
-      <img :src="getImageUrl(img)" alt="" class="cursor-move rounded relative rounded-2xl full-cover-image-mult">
+  <div ref="el" v-if="($route.path.startsWith('/new') || $route.path.startsWith('/edit'))"
+       class="grid grid-cols-3 grid-rows-3 gap-2">
+    <div :key="img" v-for="img in images" class="relative w-24 h-24 border border-solid border-gray-300 rounded-[3px]">
+      <img :src="getImageUrl(img)" alt="" class="cursor-move rounded relative rounded-[3px] full-cover-image-mult">
       <div class="absolute right-0 top-0 p-1 rounded hover:text-red-500 cursor-pointer"
            @click="removeImage(img)">
         <IconMdiTrashCanOutline class=""/>
       </div>
     </div>
+    <slot name="add"/>
   </div>
 
 
@@ -17,8 +18,7 @@
   <!--         :src="getImageUrl(img)" alt="" :key="z" v-for="(img,z) in images">-->
   <!--  </MyFancyBox>-->
 
-  <MyPhotoSwipe galleryID="my-test-gallery" :images="photoSwipeImages" :style="gridStyle"/>
-
+  <MyPhotoSwipe v-else galleryID="my-test-gallery" :images="photoSwipeImages" :style="gridStyle"/>
 </template>
 
 <script setup lang="ts">

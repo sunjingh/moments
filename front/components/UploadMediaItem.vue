@@ -1,13 +1,13 @@
 <template>
-  <div v-if="progress > 0 && progress < 100" class="img-div">
-    <UProgress :value="progress" indicator/>
-  </div>
-  <div class="img-div">
-    <div class="mx-auto text-4xl text-[#555]">
+  <div class="flex items-center justify-between relative w-24 h-24 rounded-[3px] bg-[#eee]">
+    <div class="mx-auto text-4xl text-[#888]">
       <IconMdiPlus/>
     </div>
     <div class="absolute w-full h-full overflow-hidden opacity-0 real-img-input">
       <UInput accept="image/*" type="file" size="sm" multiple @change="upload"/>
+    </div>
+    <div v-show="progress > 0 && progress < 100" class="absolute bottom-0 left-0 w-full">
+      <UProgress size="sm" :value="progress"/>
     </div>
   </div>
 </template>
@@ -43,10 +43,6 @@ const upload = async (files: FileList) => {
 </script>
 
 <style scoped lang="scss">
-.img-div {
-  @apply flex items-center justify-between relative w-20 h-20 border border-solid border-gray-300 rounded-2xl bg-[#ccc];
-}
-
 .real-img-input {
   div {
     width: 100%;
@@ -54,6 +50,7 @@ const upload = async (files: FileList) => {
 
     :deep(input) {
       height: 100%;
+      cursor: pointer;
     }
   }
 }

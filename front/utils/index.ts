@@ -47,14 +47,16 @@ async function upload2S3(files: FileList, onProgress: Function | undefined) {
         }>('/file/s3PreSigned', {
             contentType: files[0].type
         })
-        console.log('✨✨✨index.ts:49 thumbnailPreSignedUrl===>', thumbnailPreSignedUrl)
-        console.log('✨✨✨index.ts:50 thumbnailImageUrl===>', thumbnailImageUrl)
         await upload2S3WithProgress(preSignedUrl, files[i], (name: string, progress: number) => {
             onProgress && onProgress(files.length, i + 1, name, progress)
         })
-        const thumbnailFile = await createThumbnail(files[i])
-        await upload2S3WithProgress(thumbnailPreSignedUrl, thumbnailFile, () => {
-        })
+        try {
+            const thumbnailFile = await createThumbnail(files[i])
+            await upload2S3WithProgress(thumbnailPreSignedUrl, thumbnailFile, () => {
+            })
+        } catch (e) {
+            console.log('✨✨✨index.ts:60 e===>', e)
+        }
         result.push(imageUrl)
     }
     return result

@@ -77,13 +77,8 @@
       </div>
     </div>
 
-    <div>
-      <UploadMedia v-model:imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>
-    </div>
-
     <div class="flex flex-col gap-2">
       <external-url-preview :favicon="state.externalFavicon" :title="state.externalTitle" :url="state.externalUrl"/>
-      <!--<upload-image-preview :imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage"/>-->
       <music-preview v-if="state.music && state.music.id && state.music.type && state.music.server"
                      v-bind="state.music"/>
       <douban-book-preview :book="doubanData" v-if="doubanType === 'book' && doubanData&& doubanData.title"/>
@@ -91,6 +86,11 @@
       <youtube-preview v-if="state.video.type === 'youtube' && state.video.value" :url="state.video.value"/>
       <bilibili-preview v-if="state.video.type === 'bilibili' && state.video.value" :url="state.video.value"/>
       <video-preview v-if="state.video.type === 'online' && state.video.value" :url="state.video.value"/>
+      <upload-image-preview :imgs="state.imgs" @remove-image="handleRemoveImage" @drag-image="handleDragImage">
+        <template #add>
+          <UploadMediaItem v-if="state.imgs.split(',')?.length < 9" v-model:imgs="state.imgs"/>
+        </template>
+      </upload-image-preview>
     </div>
   </div>
 

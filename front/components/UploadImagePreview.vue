@@ -18,7 +18,7 @@
   <!--         :src="getImageUrl(img)" alt="" :key="z" v-for="(img,z) in images">-->
   <!--  </MyFancyBox>-->
 
-  <MyPhotoSwipe v-else galleryID="my-test-gallery" :images="photoSwipeImages" :style="gridStyle"/>
+  <MyPhotoSwipe v-else galleryID="my-img-gallery" :images="photoSwipeImages" :style="gridStyle"/>
 </template>
 
 <script setup lang="ts">

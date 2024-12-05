@@ -1,5 +1,5 @@
 <template>
-  <video class="rounded object-scale-down w-2/3" controls :src="url" preload="metadata">
+  <video class="rounded object-scale-down w-11/12" controls :src="url" preload="metadata">
   </video>
 </template>
 

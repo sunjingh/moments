@@ -1,5 +1,5 @@
 <template>
-  <UPopover :popper="{ arrow: true }" mode="click">
+  <UPopover :popper="{ arrow: true }" mode="click" class="flex items-center">
     <IconMdiLinkVariant class="w-6 h-6"/>
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">

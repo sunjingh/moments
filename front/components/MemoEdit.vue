@@ -12,7 +12,7 @@
         </template>
       </UButton>
     </div>
-    <div class="flex gap-2 text-lg text-gray-600 pt-4 ">
+    <div class="flex items-center gap-2 text-lg text-gray-600 ">
       <ExternalUrl v-model:favicon="state.externalFavicon" v-model:title="state.externalTitle"
                    v-model:url="state.externalUrl"/>
 
@@ -21,16 +21,16 @@
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
       <!--<douban-edit v-model:type="doubanType" v-model:data="doubanData"/>-->
       <IconMdiDeleteForeverOutline @click="reset" class="w-6 h-6 cursor-pointer" title="清空"/>
-    </div>
-
-    <div class="w-full" @contextmenu.prevent="onContextMenu">
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
-                   multiple searchable creatable placeholder="选择标签" class="my-2">
+                   multiple searchable creatable placeholder="选择标签" class="grow">
         <template #label>
           <span v-if="selectedLabel.length" class="truncate">{{ selectedLabel.join(',') }}</span>
           <span v-else>选择标签</span>
         </template>
       </USelectMenu>
+    </div>
+
+    <div class="w-full" @contextmenu.prevent="onContextMenu">
       <div class="relative">
         <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
         <div class="animate-bounce absolute right-2 bottom-1 cursor-pointer text-xl select-none" @click="toggleEmoji">

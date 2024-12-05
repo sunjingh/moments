@@ -1,10 +1,11 @@
 <template>
-  <div class="flex items-center justify-between relative w-24 h-24 rounded-[3px] bg-[#eee]">
-    <div class="mx-auto text-4xl text-[#888]">
+  <div class="flex items-center justify-between relative w-24 h-24 rounded-[3px] bg-[#eee] dark:bg-neutral-800">
+    <div class="mx-auto text-4xl text-[#888] dark:text-[#555]">
       <IconMdiPlus/>
     </div>
     <div class="absolute w-full h-full overflow-hidden opacity-0 real-img-input">
-      <UInput accept="image/*" type="file" size="sm" multiple @change="upload"/>
+      <!-- <UInput accept="image/*" type="file" multiple @change="upload"/>-->
+      <UInput accept=".jpg, .jpeg, .png, .heif, .heic, .webp, .gif" type="file" multiple @change="upload"/>
     </div>
     <div v-show="progress > 0 && progress < 100" class="absolute bottom-0 left-0 w-full">
       <UProgress size="sm" :value="progress"/>

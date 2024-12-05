@@ -1,5 +1,5 @@
 <template>
-  <UPopover :ui="{base:'w-[300px]'}" :popper="{ arrow: true }" mode="click">
+  <UPopover :ui="{base:'w-[300px]'}" :popper="{ arrow: true }" mode="click" class="flex items-center">
     <IconMdiFileVideoOutline class="cursor-pointer w-6 h-6"/>
     <template #panel="{close}">
       <div class="p-4 flex flex-col gap-2">

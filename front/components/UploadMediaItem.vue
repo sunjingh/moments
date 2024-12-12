@@ -3,9 +3,9 @@
     <div class="mx-auto text-4xl text-[#888] dark:text-[#555]">
       <IconMdiPlus/>
     </div>
-    <div class="absolute w-full h-full overflow-hidden opacity-0 real-img-input">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-0 real-img-input">
       <!-- <UInput accept="image/*" type="file" multiple @change="upload"/>-->
-      <UInput accept=".jpg, .jpeg, .png, .heif, .heic, .webp, .gif" type="file" multiple @change="upload"/>
+      <UInput type="file" multiple @change="upload"/>
     </div>
     <div v-show="progress > 0 && progress < 100" class="absolute bottom-0 left-0 w-full">
       <UProgress size="sm" :value="progress"/>
@@ -29,16 +29,16 @@ const upload = async (files: FileList) => {
       toast.error("只能上传图片");
       return
     }
-  }
-  const result = await useUpload(files, (totalSize: number, index: number, name: string, p: number) => {
-    progress.value = Math.round(p * 100)
-    filename.value = name
-    total.value = totalSize
-    current.value = index
-  }) as string[]
-  toast.success("上传成功")
-  if (result) {
-    imgs.value = (imgs.value ? imgs.value + ',' : '') + result.join(",")
+    const result = await useUpload([files[i]] as unknown as FileList, (totalSize: number, index: number, name: string, p: number) => {
+      progress.value = Math.round(p * 100)
+      filename.value = name
+      total.value = totalSize
+      current.value = index
+    }) as string[]
+    toast.success("上传成功")
+    if (result) {
+      imgs.value = (imgs.value ? imgs.value + ',' : '') + result.join(",")
+    }
   }
 }
 </script>

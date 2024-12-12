@@ -52,7 +52,8 @@ async function upload2S3(files: FileList, onProgress: Function | undefined) {
         })
         try {
             const thumbnailFile = await createThumbnail(files[i])
-            await upload2S3WithProgress(thumbnailPreSignedUrl, thumbnailFile, () => {
+            upload2S3WithProgress(thumbnailPreSignedUrl, thumbnailFile, () => {
+            }).then(() => {
             })
         } catch (e) {
             console.log('✨✨✨index.ts:60 e===>', e)

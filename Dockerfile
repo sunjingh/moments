@@ -1,4 +1,4 @@
-FROM node:22.2.0-alpine AS front
+FROM node:23-alpine AS front
 WORKDIR /app
 RUN npm install -g pnpm
 COPY front/package.json .
@@ -10,6 +10,8 @@ RUN pnpm run generate
 FROM golang:1.22.5-alpine AS backend
 WORKDIR /app
 ENV CGO_ENABLED=1
+# 设置国内代理
+ENV GOPROXY=https://goproxy.cn,direct
 RUN apk add --no-cache build-base tzdata
 COPY backend/go.mod .
 COPY backend/go.sum .

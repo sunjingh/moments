@@ -1,9 +1,9 @@
 FROM node:23-alpine AS front
 WORKDIR /app
-RUN npm install -g pnpm
+RUN npm install -g pnpm --registry=https://registry.npmmirror.com
 COPY front/package.json .
 COPY front/pnpm-lock.yaml .
-RUN pnpm install
+RUN pnpm install --registry=https://registry.npmmirror.com
 COPY front/. .
 RUN pnpm run generate
 

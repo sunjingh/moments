@@ -35,5 +35,6 @@ declare module 'vue' {
     IconMdiSquareEditOutline: typeof import('~icons/mdi/square-edit-outline')['default']
     IconMdiTrashCanOutline: typeof import('~icons/mdi/trash-can-outline')['default']
     IconMdiVerified: typeof import('~icons/mdi/verified')['default']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
   }
 }

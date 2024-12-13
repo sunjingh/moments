@@ -72,8 +72,13 @@
         </div>
 
         <div class="flex justify-between items-center relative">
-          <div class="flex text-xs text-[#9DA4B0]">{{
+          <div class="flex text-xs text-[#9DA4B0]">
+            {{
               sysConfig.timeFormat === 'timeAgo' ? $dayjs(item.createdAt).fromNow() : $dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss")
+            }}
+            <!--大于2天的显示时间-->
+            {{
+              sysConfig.timeFormat === 'timeAgo' && $dayjs(item.createdAt).isBefore($dayjs().add(-2, 'days')) ? $dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss") : ''
             }}
           </div>
           <div @click="showToolbar = !showToolbar"

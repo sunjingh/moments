@@ -1,5 +1,5 @@
 <template>
-  <PullRefresh v-model="reloadLoading" @touchEnd="reload">
+  <van-pull-refresh v-model="reloadLoading" success-text="刷新成功" @refresh="reload">
     <Header v-bind:user="currentUser"/>
     <div class="flex flex-col divide-y divide-[#C0BEBF]/20 dark:divide-[#000]/80">
       <Memo v-bind:memo="m" v-for="m in memos" :key="m.id"/>
@@ -9,7 +9,7 @@
       {{ loadMoreLoading ? '正在加载...' : '点击加载更多' }}
     </div>
     <div class="text-xs text-center text-gray-500 py-2" v-else>已经到底啦</div>
-  </PullRefresh>
+  </van-pull-refresh>
   <div class="w-10 h-10 absolute left-0 top-0" @click="handleDebugClick"/>
 </template>
 

@@ -226,3 +226,18 @@ export function createThumbnail(file: File) {
 export function uGetThumbnailImgPath(imgPath: string, thumbnailSuffix: string) {
     return imgPath.replace(/(\.[^.]+)$/, `$1${thumbnailSuffix}`)
 }
+
+export async function sendGotifyMessage(params: { title: string; message: string }) {
+    await $fetch('https://gotify.tianjunli.top:666/message?token=AehGzbiIoB42mCz', {
+        method: 'POST',
+        body: {
+            title: params.title,
+            message: params.message,
+            extras: {
+                "client::display": {
+                    contentType: "text/markdown"
+                }
+            }
+        }
+    })
+}

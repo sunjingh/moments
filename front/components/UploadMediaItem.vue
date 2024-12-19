@@ -3,7 +3,7 @@
     <div class="mx-auto text-4xl text-[#888] dark:text-[#555]">
       <IconMdiPlus/>
     </div>
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-0 real-img-input">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden real-img-input">
       <!-- <UInput accept="image/*" type="file" multiple @change="upload"/>-->
       <UInput accept="image/*" type="file" multiple @change="upload"/>
     </div>

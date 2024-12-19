@@ -106,13 +106,14 @@ import type {
   MemoVO,
   MetingMusicServer,
   MetingMusicType,
-  MusicDTO,
+  MusicDTO, UserVO,
   Video,
   VideoType
 } from "~/types";
 import {toast} from "vue-sonner";
 import UploadImage from "~/components/UploadImage.vue";
 import Emoji from "~/components/Emoji.vue";
+import {sendGotifyMessage} from "~/utils";
 
 const doubanType = ref<'book' | 'movie'>('book')
 const doubanData = ref<DoubanBook | DoubanMovie>({})
@@ -275,6 +276,8 @@ onMounted(async () => {
 
 const saveLoading = ref(false)
 
+const currentUser = useState<UserVO>('userinfo')
+
 const saveMemo = async () => {
   if (state.content === '') {
     toast.error("请输入内容!")
@@ -302,6 +305,10 @@ const saveMemo = async () => {
   saveLoading.value = false
   toast.success("保存成功!")
   navigateTo('/')
+  await sendGotifyMessage({
+    title: `${currentUser.value.username}发布新动态了~~~`,
+    message: `${state.content}\n\n [点击这里](https://mom.tianjunli.top:666) 访问链接`
+  })
 }
 
 </script>

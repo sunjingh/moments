@@ -305,8 +305,8 @@ const saveMemo = async () => {
   saveLoading.value = false
   toast.success("保存成功!")
   navigateTo('/')
-  await sendGotifyMessage({
-    title: `${currentUser.value.username}发布新动态了~~~`,
+  sendGotifyMessage({
+    title: `${currentUser.value.nickname}发布新动态了~~~`,
     message: `${state.content}\n\n [点击这里](https://mom.tianjunli.top:666) 访问链接`
   })
 }

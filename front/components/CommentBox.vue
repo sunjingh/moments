@@ -28,6 +28,7 @@ import Emoji from "~/components/Emoji.vue";
 import {useGlobalState} from "~/store";
 import {useStorage} from '@vueuse/core'
 import type {SysConfigVO} from "~/types";
+import {sendGotifyMessage} from "~/utils";
 
 const props = defineProps<{
   commentId: number
@@ -85,6 +86,10 @@ const doComment = async (token?: string) => {
   await useMyFetch('/comment/add', {...state, token: token})
   commentLoading.value = false
   toast.success("评论成功!")
+  sendGotifyMessage({
+    title: `有新的评论了~~~`,
+    message: `${state.content}\n\n [点击这里](https://mom.tianjunli.top:666) 访问链接`
+  })
   currentCommentBox.value = ''
   state.username = ''
   state.content = ''

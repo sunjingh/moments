@@ -227,8 +227,8 @@ export function uGetThumbnailImgPath(imgPath: string, thumbnailSuffix: string) {
     return imgPath.replace(/(\.[^.]+)$/, `$1${thumbnailSuffix}`)
 }
 
-export async function sendGotifyMessage(params: { title: string; message: string }) {
-    await $fetch('https://gotify.tianjunli.top:666/message?token=AehGzbiIoB42mCz', {
+export function sendGotifyMessage(params: { title: string; message: string }) {
+    $fetch('https://gotify.tianjunli.top:666/message?token=AehGzbiIoB42mCz', {
         method: 'POST',
         body: {
             title: params.title,
@@ -239,5 +239,9 @@ export async function sendGotifyMessage(params: { title: string; message: string
                 }
             }
         }
+    }).then(() => {
+        console.log('发送成功')
+    }).catch(() => {
+        console.log('发送失败')
     })
 }

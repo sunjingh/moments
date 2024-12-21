@@ -9,6 +9,9 @@
 import {Toaster} from 'vue-sonner'
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import '~/assets/simple-markdown.scss'
+// import eruda from 'eruda'
+
+// eruda.init()
 </script>
 
 <style>

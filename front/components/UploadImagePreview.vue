@@ -109,7 +109,7 @@ const removeImage = async (img: string) => {
 onMounted(() => {
   if (route.path.startsWith('/new') || route.path.startsWith('/edit')) {
     setTimeout(() => {
-      useSortable(el, images)
+      // useSortable(el, images)
     }, 500)
   }
 })

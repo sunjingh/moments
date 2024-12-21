@@ -11,7 +11,6 @@
       <UProgress size="sm" :value="progress"/>
     </div>
   </div>
-  <UInput accept="image/*" type="file" multiple @change="upload"/>
 </template>
 
 <script setup lang="ts">

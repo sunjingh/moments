@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import {useUpload} from "~/utils";
-import {toast} from "vue-sonner";
 
 const imgs = defineModel<string>('imgs')
 const progress = ref(0)
@@ -36,7 +35,7 @@ const current = ref(0)
 const upload = async (files: FileList) => {
   for (let i = 0; i < files.length; i++) {
     if (files[i].type.indexOf("image") < 0) {
-      toast.error("只能上传图片");
+      showFailToast("只能上传图片")
       return
     }
   }
@@ -46,7 +45,7 @@ const upload = async (files: FileList) => {
     total.value = totalSize
     current.value = index
   }) as string[]
-  toast.success("上传成功")
+  showSuccessToast('上传成功')
   if (result) {
     imgs.value = (imgs.value ? imgs.value + ',' : '') + result.join(",")
   }

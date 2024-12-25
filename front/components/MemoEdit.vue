@@ -110,7 +110,6 @@ import type {
   Video,
   VideoType
 } from "~/types";
-import {toast} from "vue-sonner";
 import UploadImage from "~/components/UploadImage.vue";
 import Emoji from "~/components/Emoji.vue";
 import {sendGotifyMessage} from "~/utils";
@@ -280,7 +279,8 @@ const currentUser = useState<UserVO>('userinfo')
 
 const saveMemo = async () => {
   if (state.content === '') {
-    toast.error("请输入内容!")
+    // toast.error("请输入内容!")
+    showFailToast("请输入内容")
     return
   }
   saveLoading.value = true
@@ -303,7 +303,8 @@ const saveMemo = async () => {
     tags: selectedLabel.value
   })
   saveLoading.value = false
-  toast.success("保存成功!")
+  showSuccessToast('保存成功')
+  // toast.success("保存成功!")
   navigateTo('/')
   sendGotifyMessage({
     title: `${currentUser.value.nickname}发布新动态了~~~`,

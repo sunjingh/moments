@@ -3,7 +3,6 @@
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver';
 import Components from 'unplugin-vue-components/vite';
-import {VantResolver} from 'unplugin-vue-components/resolvers';
 
 export default defineNuxtConfig({
     experimental: {
@@ -11,7 +10,7 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2024-04-03',
     devtools: {enabled: false},
-    modules: ["@nuxt/ui", '@vueuse/nuxt', 'dayjs-nuxt'],
+    modules: ["@nuxt/ui", '@vueuse/nuxt', 'dayjs-nuxt', '@vant/nuxt'],
     ssr: false,
     dayjs: {
         locales: ['zh'],
@@ -57,8 +56,7 @@ export default defineNuxtConfig({
                 resolvers: [
                     IconsResolver({
                         prefix: 'Icon', // 这个前缀可以自定义
-                    }),
-                    VantResolver()
+                    })
                 ],
             }),
             Icons({

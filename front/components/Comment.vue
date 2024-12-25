@@ -30,7 +30,6 @@
 <script setup lang="ts">
 import type {CommentVO, UserVO} from "~/types";
 import CommentBox from "~/components/CommentBox.vue";
-import {toast} from "vue-sonner";
 import {memoChangedEvent} from "~/event";
 import {useGlobalState} from "~/store";
 
@@ -51,7 +50,7 @@ const props = defineProps<{
 }>()
 const removeComment = async () => {
   await useMyFetch('/comment/remove?id=' + props.comment.id)
-  toast.success("删除成功!")
+  showSuccessToast('删除成功')
   memoChangedEvent.emit(props.memoId)
 }
 </script>

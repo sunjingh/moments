@@ -57,7 +57,7 @@ const state = reactive({
 const commentLoading = ref(false)
 const comment = async () => {
   if (state.content === '') {
-    toast.error("请输入内容!")
+    showFailToast("请输入内容")
     return
   }
   commentLoading.value = true
@@ -85,7 +85,7 @@ const doComment = async (token?: string) => {
   }
   await useMyFetch('/comment/add', {...state, token: token})
   commentLoading.value = false
-  toast.success("评论成功!")
+  showSuccessToast('评论成功')
   sendGotifyMessage({
     title: `有新的评论了~~~`,
     message: `${state.content}\n\n [点击这里](https://mom.tianjunli.top:666) 访问链接`

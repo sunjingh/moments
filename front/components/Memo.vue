@@ -157,7 +157,6 @@
 
 <script setup lang="ts">
 import type {ExtDTO, MemoVO, SysConfigVO} from "~/types";
-import {toast} from "vue-sonner";
 import {memoChangedEvent, memoReloadEvent} from "~/event";
 import Comment from "~/components/Comment.vue";
 import {useGlobalState} from "~/store";
@@ -242,7 +241,7 @@ const go2Edit = async (id: number) => {
 
 const removeMemo = async (id: number) => {
   await useMyFetch('/memo/remove?id=' + id)
-  toast.success("删除成功!")
+  showSuccessToast('删除成功')
   if (isDetailPage.value) {
     await navigateTo('/')
   } else {
@@ -252,7 +251,7 @@ const removeMemo = async (id: number) => {
 }
 const setPinned = async (id: number) => {
   await useMyFetch('/memo/setPinned?id=' + id)
-  toast.success("操作成功!")
+  showSuccessToast('操作成功')
   if (isDetailPage.value) {
     await navigateTo('/')
   } else {
@@ -264,7 +263,7 @@ const setPinned = async (id: number) => {
 const doLike = async (id: number, token: string = '') => {
   const likes = JSON.parse(localStorage.getItem('likeMemos') || '[]') as Array<number>
   await useMyFetch(`/memo/like?id=${id}&token=${token}`)
-  toast.success("点赞成功!")
+  showSuccessToast('点赞成功')
   likes.push(id)
   localStorage.setItem('likeMemos', JSON.stringify(likes))
   memoChangedEvent.emit(id)
@@ -276,7 +275,7 @@ const likeMemo = async (id: number) => {
   showToolbar.value = false
   const likes = JSON.parse(localStorage.getItem('likeMemos') || '[]') as Array<number>
   if (likes.includes(id)) {
-    toast.warning("您已经点赞过了!")
+    showToast('您已经点赞过了')
     return
   }
 
